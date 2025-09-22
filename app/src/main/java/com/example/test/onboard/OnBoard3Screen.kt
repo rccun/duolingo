@@ -13,18 +13,18 @@ import androidx.navigation.NavController
 import com.example.test.Route
 
 @Composable
-fun OnBoardScreen(
+fun OnBoard3Screen(
     navController: NavController
 ) {
 
     Column {
-        Image()
-
-        Row() {}
-        Text()
-        Text()
-        Button() {}
-        Text("sdjhkjsdhj", modifier = Modifier.clickable{navController.navigate(Route.OnBoard2.route)})
+//        Image()
+//
+//        Row() {}
+//        Text()
+//        Text()
+//        Button() {}
+//        Text("sdjhkjsdhj", modifier = Modifier.clickable{navController.navigate(Route.OnBoard2.route)})
 
     }
 
