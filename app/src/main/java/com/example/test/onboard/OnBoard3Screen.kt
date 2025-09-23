@@ -18,13 +18,7 @@ fun OnBoard3Screen(
 ) {
 
     Column {
-//        Image()
-//
-//        Row() {}
-//        Text()
-//        Text()
-//        Button() {}
-//        Text("sdjhkjsdhj", modifier = Modifier.clickable{navController.navigate(Route.OnBoard2.route)})
+
 
     }
 

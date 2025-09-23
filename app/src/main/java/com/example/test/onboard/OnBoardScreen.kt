@@ -1,24 +1,28 @@
 package com.example.test.onboard
 
-import androidx.compose.foundation.Canvas
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -34,6 +38,12 @@ import androidx.navigation.NavController
 import com.example.test.R
 import com.example.test.Route
 
+data class OnBoardScreen(
+    @DrawableRes val id: Int,
+    val title: String,
+    val desc: String,
+)
+
 @Composable
 fun OnBoardScreen(
     navController: NavController
@@ -46,16 +56,22 @@ fun OnBoardScreen(
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
+
+    val list = listOf(
+        OnBoardScreen(R.drawable.splash, "T1", "D1"),
+        OnBoardScreen(R.drawable.splash, "T1", "D1"),
+        OnBoardScreen(R.drawable.splash, "T1", "D1"),
+    )
     Column(
         modifier = Modifier.padding(
-            top = (height * 147 / 812).dp,
+            top = (height * 123 / 812).dp,
             start = (width * 24 / 375).dp,
             end = (width * 24 / 375).dp
         )
     ) {
         Image(
             bitmap = ImageBitmap.imageResource(R.drawable.onb1),
-            "blabla",
+            "onb1",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .height((height * 220.26 / 812).dp)
@@ -66,13 +82,28 @@ fun OnBoardScreen(
         )
         Spacer(modifier = Modifier.height((height * 114.74 / 812).dp))
 
-        Row(modifier = Modifier.height((height * 8 / 812).dp)) {
-            Canvas(modifier = Modifier.fillMaxHeight()) {
-                drawCircle(
-                    color = Color(0xFFF76400),
-                    center = Offset(0f, 0f)
-                )
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy((width * 8 / 375).dp, Alignment.CenterHorizontally)
+        ) {
+            Box(
+                Modifier
+                    .size((width * 8 / 375).dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFF76400), CircleShape)
+            )
+            Box(
+                Modifier
+                    .size((width * 8 / 375).dp)
+                    .clip(CircleShape)
+                    .background(Color(0x20080E1E), CircleShape)
+            )
+            Box(
+                Modifier
+                    .size((width * 8 / 375).dp)
+                    .clip(CircleShape)
+                    .background(Color(0x20080E1E), CircleShape)
+            )
         }
         Text(
             "Confidence in your words",
@@ -103,8 +134,11 @@ fun OnBoardScreen(
             onClick = { navController.navigate(Route.OnBoard2.route) },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .background(color = Color(0xFF5B7BFE), shape = RoundedCornerShape(12.dp))
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                Color(0xFF5B7BFE)
+            ),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Text(
                 "Next",
@@ -121,7 +155,7 @@ fun OnBoardScreen(
             fontWeight = FontWeight.Normal,
             fontSize = 15.sp,
             modifier = Modifier
-                .clickable { navController.navigate(Route.OnBoard3.route) }
+                .clickable { navController.navigate(Route.LanguageSelect.route) }
                 .padding(top = (height * 16 / 812).dp)
                 .align(Alignment.CenterHorizontally)
         )

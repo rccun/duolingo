@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.test.language_select.LanguageSelectScreen
 import com.example.test.onboard.OnBoard2Screen
 import com.example.test.onboard.OnBoard3Screen
 import com.example.test.onboard.OnBoardScreen
@@ -22,6 +23,7 @@ sealed class Route(val route: String) {
     data object OnBoard: Route("OnBoard")
     data object OnBoard2: Route("OnBoard2")
     data object OnBoard3: Route("OnBoard3")
+    data object LanguageSelect: Route("LanguageSelect")
 }
 
 class MainActivity : ComponentActivity() {
@@ -49,6 +51,10 @@ class MainActivity : ComponentActivity() {
                     composable(Route.OnBoard3.route) {
                         OnBoard3Screen(navController)
                     }
+                    composable(Route.LanguageSelect.route) {
+                        LanguageSelectScreen(navController)
+                    }
+
                 }
             }
         }
