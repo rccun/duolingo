@@ -64,7 +64,7 @@ fun OnBoardScreen(
     )
     Column(
         modifier = Modifier.padding(
-            top = (height * 123 / 812).dp,
+            top = (height * 147 / 812).dp,
             start = (width * 24 / 375).dp,
             end = (width * 24 / 375).dp
         )

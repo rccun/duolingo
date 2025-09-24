@@ -13,6 +13,7 @@ import com.example.test.language_select.LanguageSelectScreen
 import com.example.test.onboard.OnBoard2Screen
 import com.example.test.onboard.OnBoard3Screen
 import com.example.test.onboard.OnBoardScreen
+import com.example.test.sign_up.SignUpScreen
 import com.example.test.splash.SplashScreen
 import com.example.test.ui.theme.TestTheme
 
@@ -24,6 +25,7 @@ sealed class Route(val route: String) {
     data object OnBoard2: Route("OnBoard2")
     data object OnBoard3: Route("OnBoard3")
     data object LanguageSelect: Route("LanguageSelect")
+    data object SignUp: Route("SignUp")
 }
 
 class MainActivity : ComponentActivity() {
@@ -54,7 +56,9 @@ class MainActivity : ComponentActivity() {
                     composable(Route.LanguageSelect.route) {
                         LanguageSelectScreen(navController)
                     }
-
+                    composable(Route.SignUp.route) {
+                        SignUpScreen(navController)
+                    }
                 }
             }
         }
