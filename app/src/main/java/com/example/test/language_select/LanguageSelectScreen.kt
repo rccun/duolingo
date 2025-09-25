@@ -48,7 +48,7 @@ fun LanguageSelectScreen(
     val height = configuration.screenHeightDp
     val languages = listOf("Russian", "English", "Chinese", "Belarus", "Kazakh")
 
-    ConstraintLayout(
+    Column(
         modifier = Modifier.padding(
             top = (height * 90 / 812).dp,
             start = (width * 24 / 375).dp,
@@ -56,7 +56,7 @@ fun LanguageSelectScreen(
         ).fillMaxSize()
     ) {
         Text(
-            "What is your Mother language?",
+            "What is your Mother language? AAAAAAAAAAAAAAAAAAAAAAAAAAa",
             fontFamily = fonts,
             fontWeight = FontWeight.Medium,
             fontSize = 22.sp,
