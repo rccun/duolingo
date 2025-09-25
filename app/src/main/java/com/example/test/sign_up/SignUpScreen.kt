@@ -123,7 +123,7 @@ fun SignUpScreen(
                         start = (width * 24 / 375).dp,
                         bottom = (height * 21 / 812).dp
                     )
-                    .clickable { navController.navigate(Route.LanguageSelect.route) })
+                    .clickable { navController.navigate(Route.LogIn.route) })
 
             Text(
                 "Sign up",
