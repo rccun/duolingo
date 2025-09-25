@@ -10,9 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.test.language_select.LanguageSelectScreen
+import com.example.test.login.LogInScreen
 import com.example.test.onboard.OnBoard2Screen
 import com.example.test.onboard.OnBoard3Screen
 import com.example.test.onboard.OnBoardScreen
+import com.example.test.sign_up.SignUpPasswordScreen
 import com.example.test.sign_up.SignUpScreen
 import com.example.test.splash.SplashScreen
 import com.example.test.ui.theme.TestTheme
@@ -26,6 +28,9 @@ sealed class Route(val route: String) {
     data object OnBoard3: Route("OnBoard3")
     data object LanguageSelect: Route("LanguageSelect")
     data object SignUp: Route("SignUp")
+    data object SignUpPassword: Route("SignUpPassword")
+    data object LogIn: Route("LogIn")
+
 }
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val f_sb = FontFamily(Font(R.font.fredoka_sb))
 
             val navController = rememberNavController()
             TestTheme {
@@ -58,6 +62,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.SignUp.route) {
                         SignUpScreen(navController)
+                    }
+                    composable(Route.SignUpPassword.route) {
+                        SignUpPasswordScreen(navController)
+                    }
+                    composable(Route.LogIn.route) {
+                        LogInScreen(navController)
                     }
                 }
             }
