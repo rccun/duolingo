@@ -258,7 +258,7 @@ fun SignUpScreen(
             )
             Button(
                 onClick = {
-                    if (isValid(email.value)) navController.navigate(Route.LogIn.route)
+                    if (isValid(email.value)) navController.navigate(Route.SignUpPassword.route)
                     else showDialog.value = true
                 },
                 modifier = Modifier

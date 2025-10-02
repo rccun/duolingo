@@ -1,7 +1,5 @@
 package com.example.test.sign_up
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -37,8 +39,11 @@ import androidx.navigation.NavController
 import com.example.test.R
 import com.example.test.Route
 
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.SpanStyle
 
-fun isPasswordValid(value: String) : Boolean {
+
+fun isPasswordValid(value: String): String {
     val len = value.length > 7
     var num = false
     val nums = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
@@ -49,14 +54,19 @@ fun isPasswordValid(value: String) : Boolean {
         }
     }
     val low = value.lowercase() == value
+    val up = value.toUpperCase() == value
     var isSpec = false
     val spec = listOf("@", "№", "$", "#", "&", "%")
     for (i in spec) if (value.contains(i)) {
         isSpec = true
         break
     }
-    if (!len or !num or !low or !isSpec) return true
-    else return false
+    if (!len) return "Пароль должен содержать минимум 8 символов"
+    if (!num) return "Пароль должен содержать цифры"
+    if (low) return "Пароль должен содержать заглавные буквы"
+    if (up) return "Пароль должен содержать маленькие буквы"
+    if (!isSpec) return "Пароль должен содержать специальные символы (@#$&%№)"
+    else return ""
 }
 
 
@@ -107,6 +117,46 @@ fun SignUpPasswordScreen(
         }
 
 
+        val clickablePart = "have made myself acquainted with the Rules"
+
+
+        val annotatedText = buildAnnotatedString {
+            withStyle(
+                SpanStyle(
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Normal,
+                    color = Color(0xFF656872),
+                    fontSize = 17.sp
+                )
+            ) { append("I ") }
+            withStyle(
+                SpanStyle(
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Normal,
+                    color = Color(0xFF5B7BFE),
+                    fontSize = 17.sp
+                )
+            ) {
+                append(clickablePart)
+            }
+            withStyle(
+                SpanStyle(
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Normal,
+                    color = Color(0xFF656872),
+                    fontSize = 17.sp
+                )
+            ) {
+                append(" and accept all its provisions")
+            }
+            addStringAnnotation(
+                tag = "URL",
+                annotation = "https://github.com", // URL или другая информация для обработки клика
+                start = length, // Начало кликабельного текста
+                end = length + clickablePart.length // Конец кликабельного текста
+            )
+        }
+
         Column(
             modifier = Modifier
                 .padding(
@@ -118,6 +168,7 @@ fun SignUpPasswordScreen(
         ) {
             val passw = remember { mutableStateOf("") }
             val conf = remember { mutableStateOf("") }
+            val mes = remember { mutableStateOf("") }
             Text(
                 "Choose a Passsword",
                 modifier = Modifier
@@ -182,7 +233,7 @@ fun SignUpPasswordScreen(
                 shape = RoundedCornerShape(16.dp),
                 placeholder = {
                     Text(
-                        "Your last name",
+                        "********",
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
                         fontSize = (height * 15 / 812).sp,
@@ -191,16 +242,52 @@ fun SignUpPasswordScreen(
 
                         )
                 })
+            val checkedState = remember { mutableStateOf(false) }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = (height * 25 / 812).dp)
+            )
+            {
+                Checkbox(
+                    checked = checkedState.value,
+                    onCheckedChange = { checkedState.value = it },
+                    colors = CheckboxDefaults.colors(checkedColor = Color(0xFF5B7BFE), uncheckedColor = Color(0xFF5B7BFE))
+
+                )
+                ClickableText(
+                    text = annotatedText,
+                    onClick = { offset ->
+                        annotatedText.getStringAnnotations(
+                            tag = "URL",
+                            start = offset,
+                            end = offset
+                        )
+                            .firstOrNull()?.let { annotation ->
+                                println("Клик по ссылке: ${annotation.item}")
+                            }
+                    }
+                )
+            }
 
             Button(
                 onClick = {
-                    if (isValidPassword(email.value)) navController.navigate(Route.LogIn.route)
-                    else showDialog.value = true
+                    if (checkedState.value == true) {
+                        if (passw.value == conf.value) {
+                            if (isPasswordValid(passw.value) != "") {
+                                mes.value = isPasswordValid(passw.value)
+                                showDialog.value = true
+                            } else navController.navigate(Route.LogIn.route)
+                        } else {
+                            mes.value = "Пароли не совпадают"
+                            showDialog.value = true
+                        }
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
-                    .padding(top = (height * 34 / 812).dp, bottom = (height * 24 / 812).dp),
+                    .padding(top = (height * 73 / 812).dp, bottom = (height * 24 / 812).dp),
                 colors = ButtonDefaults.buttonColors(
                     Color(0xFF5B7BFE)
                 ),
@@ -234,12 +321,13 @@ fun SignUpPasswordScreen(
             }
             MyDialog(
                 title = "Ошибка",
-                text = "",
+                text = mes.value,
                 show = showDialog.value,
-                onDismissRequest = { showDialog.value = false }, // Закрытие по клику вне окна
+                onDismissRequest = { showDialog.value = false },
                 confirmButton = {
-                    TextButton(onClick = { showDialog.value = false
-                        email.value = ""}) {
+                    TextButton(onClick = {
+                        showDialog.value = false
+                    }) {
                         Text("OK")
                     }
                 }

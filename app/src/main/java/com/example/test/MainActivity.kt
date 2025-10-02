@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
             TestTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Route.Splash.route
+                    startDestination = Route.SignUpPassword.route
                 ) {
                     composable(Route.Splash.route) {
                         SplashScreen(navController)
