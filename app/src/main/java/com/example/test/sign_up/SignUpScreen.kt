@@ -34,66 +34,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.test.MyDialog
 import com.example.test.R
 import com.example.test.Route
-
-
-fun isValid(value: String): Boolean {
-
-    try {
-        val name = value.substring(0, value.indexOf("@"))
-        val domen = value.substring(value.indexOf("@") + 1, value.indexOf("."))
-        val flag = value.indexOf("@") < value.indexOf(".")
-        val flag2 = name.lowercase() == name
-        val flag3 = domen.lowercase() == domen
-
-        if (!value.contains("@") or !value.contains(".") or !flag or !flag2 or !flag3)
-            return false
-        else return true
-    } catch (e: Exception) {
-        return false
-    }
-}
-
-/*
-    var showDialog by remember { mutableStateOf(false) }
-
-    // Кнопка, которая открывает диалог
-    Button(onClick = { showDialog = true }) {
-        Text("Показать сообщение")
-    }
-
-    // Вызов диалога
-    MyDialog(
-        title = "Важное сообщение",
-        text = "Это пример окна сообщения в Jetpack Compose.",
-        show = showDialog,
-        onDismissRequest = { showDialog = false }, // Закрытие по клику вне окна
-        confirmButton = {
-            TextButton(onClick = { showDialog = false }) {
-                Text("OK")
-            }
-        }
-    )
-}
-*/
-@Composable
-fun MyDialog(
-    title: String,
-    text: String,
-    show: Boolean,
-    onDismissRequest: () -> Unit,
-    confirmButton: @Composable () -> Unit
-) {
-    if (show) {
-        AlertDialog(
-            onDismissRequest = onDismissRequest,
-            title = { Text(title) },
-            text = { Text(text) },
-            confirmButton = { confirmButton() }
-        )
-    }
-}
+import com.example.test.fonts
+import com.example.test.isValid
 
 @Composable
 fun SignUpScreen(
@@ -101,9 +46,6 @@ fun SignUpScreen(
 ) {
     var showDialog = remember { mutableStateOf(false) }
 
-    val fonts = FontFamily(
-        Font(R.font.fredoka_m, FontWeight.Medium), Font(R.font.fredoka_r, FontWeight.Normal)
-    )
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
@@ -293,7 +235,7 @@ fun SignUpScreen(
                     fontWeight = FontWeight.Medium,
                     fontSize = (height * 17 / 812).sp,
                     color = Color(0xFF5B7BFE),
-                    modifier = Modifier.clickable { navController.navigate(Route.SignUpPassword.route) })
+                    modifier = Modifier.clickable { navController.navigate(Route.LogIn.route) })
 
             }
             MyDialog(

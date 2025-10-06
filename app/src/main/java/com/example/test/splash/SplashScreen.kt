@@ -59,7 +59,7 @@ fun SplashScreen(
             fontFamily = f_sb,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             color = Color.White,
-            fontSize = 36.sp // 812/24
+            fontSize = 36.sp
         )
 
     }

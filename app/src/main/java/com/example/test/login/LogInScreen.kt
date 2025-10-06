@@ -31,51 +31,23 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.test.MyDialog
 import com.example.test.R
 import com.example.test.Route
+import com.example.test.fonts
+import com.example.test.isPasswordValid
+import com.example.test.isValid
 
-
-fun isValid(value: String): Boolean {
-
-    try {
-        val name = value.substring(0, value.indexOf("@"))
-        val domen = value.substring(value.indexOf("@") + 1, value.indexOf("."))
-        val flag = value.indexOf("@") < value.indexOf(".")
-        val flag2 = name.lowercase() == name
-        val flag3 = domen.lowercase() == domen
-
-        if (!value.contains("@") or !value.contains(".") or !flag or !flag2 or !flag3)
-            return false
-        else return true
-    } catch (e: Exception) {
-        return false
-    }
-}
-@Composable
-fun MyDialog(
-    title: String,
-    text: String,
-    show: Boolean,
-    onDismissRequest: () -> Unit,
-    confirmButton: @Composable () -> Unit
-) {
-    if (show) {
-        AlertDialog(
-            onDismissRequest = onDismissRequest,
-            title = { Text(title) },
-            text = { Text(text) },
-            confirmButton = { confirmButton() }
-        )
-    }
-}
 
 @Composable
 fun LogInScreen(
@@ -83,9 +55,8 @@ fun LogInScreen(
 ) {
     var showDialog = remember { mutableStateOf(false) }
 
-    val fonts = FontFamily(
-        Font(R.font.fredoka_m, FontWeight.Medium), Font(R.font.fredoka_r, FontWeight.Normal)
-    )
+    var mes = remember { mutableStateOf("") }
+
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
@@ -105,7 +76,7 @@ fun LogInScreen(
                         start = (width * 24 / 375).dp,
                         bottom = (height * 21 / 812).dp
                     )
-                    .clickable { navController.navigate(Route.LogIn.route) })
+                    .clickable { navController.navigate(Route.LanguageSelect.route) })
 
             Text(
                 "Login",
@@ -132,9 +103,8 @@ fun LogInScreen(
                 )
                 .fillMaxSize()
         ) {
-            val first_name = remember { mutableStateOf("") }
-            val last_name = remember { mutableStateOf("") }
             val email = remember { mutableStateOf("") }
+            val passw = remember { mutableStateOf("") }
             Image(
                 bitmap = ImageBitmap.imageResource(R.drawable.login),
                 "login",
@@ -150,83 +120,22 @@ fun LogInScreen(
                 "For free, join now and start learning",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = (height * 8 / 812).dp),
+                    .padding(top = (height * 12 / 812).dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 22.sp,
-                color = Color(0xFF080E1E)
+                color = Color(0xFF080E1E),
+                textAlign = TextAlign.Center
             )
 
             Text(
-                "First name",
+                "Email Address",
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
                 fontSize = (height * 15 / 812).sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
-                )
-            )
-            TextField(
-                value = first_name.value,
-                onValueChange = { first_name.value = it },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color(0x05080E1E),
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(16.dp),
-                placeholder = {
-                    Text(
-                        "Your first name",
-                        fontFamily = fonts,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
-                        color = Color(0x50656872),
-
-
-                        )
-                })
-            Text(
-                "Last name",
-                fontFamily = fonts,
-                fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
-                color = Color(0xFF363B44),
-                modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
-                )
-            )
-            TextField(
-                value = last_name.value,
-                onValueChange = { last_name.value = it },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color(0x05080E1E),
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(16.dp),
-                placeholder = {
-                    Text(
-                        "Your last name",
-                        fontFamily = fonts,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
-                        color = Color(0x50656872),
-
-
-                        )
-                })
-            Text(
-                "Email",
-                fontFamily = fonts,
-                fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
-                color = Color(0xFF363B44),
-                modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = (height * 32 / 812).dp, bottom = (height * 8 / 812).dp
                 )
             )
             TextField(
@@ -246,25 +155,92 @@ fun LogInScreen(
                         fontWeight = FontWeight.Normal,
                         fontSize = (height * 15 / 812).sp,
                         color = Color(0x50656872),
-                    )
-                }
+
+
+                        )
+                })
+            Text(
+                "Password",
+                fontFamily = fonts,
+                fontWeight = FontWeight.Normal,
+                fontSize = (height * 15 / 812).sp,
+                color = Color(0xFF363B44),
+                modifier = Modifier.padding(
+                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                )
+            )
+            TextField(
+                value = passw.value,
+                onValueChange = { passw.value = it },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color(0x05080E1E),
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(16.dp),
+                placeholder = {
+                    Text(
+                        "********",
+                        fontFamily = fonts,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = (height * 15 / 812).sp,
+                        color = Color(0x50656872),
+
+
+                        )
+                })
+            val con = LocalContext.current
+            Text(
+                "Forgot password",
+                fontFamily = fonts,
+                fontWeight = FontWeight.Normal,
+                fontSize = (height * 15 / 812).sp,
+                color = Color(0xFFD6185D),
+                modifier = Modifier
+                    .clickable {
+                        Toast.makeText(
+                            con,
+                            "forgot passw",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .padding(top = (height * 12 / 812).dp)
             )
             Button(
                 onClick = {
-                    if (isValid(email.value)) navController.navigate(Route.SignUpPassword.route)
-                    else showDialog.value = true
+                    if (email.value == "") {
+                        mes.value = "Email не должен быть пустым"
+                        showDialog.value = true
+                    }
+                    else if (passw.value == "") {
+                        mes.value = "Пароль не должен быть пустым"
+                        showDialog.value = true
+                    }
+                    else {
+                        if (isValid(email.value)) {
+                            if (isPasswordValid(passw.value) == "") navController.navigate(Route.Main.route)
+                            else {
+                                mes.value = isPasswordValid(passw.value)
+                                showDialog.value = true
+                            }
+                        } else {
+                            mes.value = "Введен некорректный email"
+                            showDialog.value = true
+                        }
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
-                    .padding(top = (height * 34 / 812).dp, bottom = (height * 24 / 812).dp),
+                    .padding(top = (height * 32 / 812).dp, bottom = (height * 24 / 812).dp),
                 colors = ButtonDefaults.buttonColors(
                     Color(0xFF5B7BFE)
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Continue",
+                    "Login",
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
@@ -274,29 +250,28 @@ fun LogInScreen(
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
-                    "Already you member? ",
+                    "Not you member? ",
                     fontFamily = fonts,
                     fontWeight = FontWeight.Normal,
                     fontSize = (height * 17 / 812).sp,
                     color = Color(0xFF656872),
                 )
                 Text(
-                    "Login",
+                    "Signup",
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = (height * 17 / 812).sp,
                     color = Color(0xFF5B7BFE),
-                    modifier = Modifier.clickable { navController.navigate(Route.SignUpPassword.route) })
+                    modifier = Modifier.clickable { navController.navigate(Route.SignUp.route) })
 
             }
             MyDialog(
                 title = "Ошибка",
-                text = "Введите корректный email",
+                text = mes.value,
                 show = showDialog.value,
                 onDismissRequest = { showDialog.value = false }, // Закрытие по клику вне окна
                 confirmButton = {
-                    TextButton(onClick = { showDialog.value = false
-                        email.value = ""}) {
+                    TextButton(onClick = { showDialog.value = false }) {
                         Text("OK")
                     }
                 }

@@ -4,20 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.test.audition.AuditionScreen
+import com.example.test.game.GameScreen
+import com.example.test.guess_animal.GuessAnimalScreen
 import com.example.test.language_select.LanguageSelectScreen
 import com.example.test.login.LogInScreen
+import com.example.test.main.MainScreen
 import com.example.test.onboard.OnBoard2Screen
 import com.example.test.onboard.OnBoard3Screen
 import com.example.test.onboard.OnBoardScreen
+import com.example.test.profile.ProfileScreen
 import com.example.test.sign_up.SignUpPasswordScreen
 import com.example.test.sign_up.SignUpScreen
 import com.example.test.splash.SplashScreen
 import com.example.test.ui.theme.TestTheme
+import com.example.test.word_practice.WordPracticeScreen
+import com.example.test.profile.ResizePhotoScreen
 
 
 sealed class Route(val route: String) {
@@ -30,6 +35,13 @@ sealed class Route(val route: String) {
     data object SignUp: Route("SignUp")
     data object SignUpPassword: Route("SignUpPassword")
     data object LogIn: Route("LogIn")
+    data object Main: Route("Main")
+    data object GuessAnimal: Route("GuessAnimal")
+    data object WordPractice: Route("WordPractice")
+    data object Game: Route("Game")
+    data object Audition: Route("Audition")
+    data object Profile: Route("Profile")
+    data object ResizePhoto: Route("ResizePhoto")
 
 }
 
@@ -43,7 +55,7 @@ class MainActivity : ComponentActivity() {
             TestTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Route.SignUpPassword.route
+                    startDestination = Route.Profile.route
                 ) {
                     composable(Route.Splash.route) {
                         SplashScreen(navController)
@@ -68,6 +80,27 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.LogIn.route) {
                         LogInScreen(navController)
+                    }
+                    composable(Route.Main.route) {
+                        MainScreen(navController)
+                    }
+                    composable(Route.GuessAnimal.route) {
+                        GuessAnimalScreen(navController)
+                    }
+                    composable(Route.WordPractice.route) {
+                        WordPracticeScreen(navController)
+                    }
+                    composable(Route.Game.route) {
+                        GameScreen(navController)
+                    }
+                    composable(Route.Audition.route) {
+                        AuditionScreen(navController)
+                    }
+                    composable(Route.Profile.route) {
+                        ProfileScreen(navController)
+                    }
+                    composable(Route.ResizePhoto.route) {
+                        ResizePhotoScreen(navController)
                     }
                 }
             }

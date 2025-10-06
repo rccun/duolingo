@@ -41,33 +41,9 @@ import com.example.test.Route
 
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.SpanStyle
-
-
-fun isPasswordValid(value: String): String {
-    val len = value.length > 7
-    var num = false
-    val nums = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
-    for (i in nums) {
-        if (value.contains(i)) {
-            num = true
-            break
-        }
-    }
-    val low = value.lowercase() == value
-    val up = value.toUpperCase() == value
-    var isSpec = false
-    val spec = listOf("@", "№", "$", "#", "&", "%")
-    for (i in spec) if (value.contains(i)) {
-        isSpec = true
-        break
-    }
-    if (!len) return "Пароль должен содержать минимум 8 символов"
-    if (!num) return "Пароль должен содержать цифры"
-    if (low) return "Пароль должен содержать заглавные буквы"
-    if (up) return "Пароль должен содержать маленькие буквы"
-    if (!isSpec) return "Пароль должен содержать специальные символы (@#$&%№)"
-    else return ""
-}
+import com.example.test.MyDialog
+import com.example.test.fonts
+import com.example.test.isPasswordValid
 
 
 @Composable
@@ -77,9 +53,6 @@ fun SignUpPasswordScreen(
     var showDialog = remember { mutableStateOf(false) }
     var mes = remember { mutableStateOf("") }
 
-    val fonts = FontFamily(
-        Font(R.font.fredoka_m, FontWeight.Medium), Font(R.font.fredoka_r, FontWeight.Normal)
-    )
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
@@ -89,7 +62,8 @@ fun SignUpPasswordScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color(0xFF410FA3))
-        ) {
+        )
+        {
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.icon_back),
                 "back",
@@ -165,7 +139,8 @@ fun SignUpPasswordScreen(
                     end = (width * 24 / 375).dp
                 )
                 .fillMaxSize()
-        ) {
+        )
+        {
             val passw = remember { mutableStateOf("") }
             val conf = remember { mutableStateOf("") }
             val mes = remember { mutableStateOf("") }
@@ -316,8 +291,7 @@ fun SignUpPasswordScreen(
                     fontWeight = FontWeight.Medium,
                     fontSize = (height * 17 / 812).sp,
                     color = Color(0xFF5B7BFE),
-                    modifier = Modifier.clickable { navController.navigate(Route.SignUpPassword.route) })
-
+                    modifier = Modifier.clickable { navController.navigate(Route.LogIn.route)})
             }
             MyDialog(
                 title = "Ошибка",

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.test.R
 import com.example.test.Route
+import com.example.test.fonts
 
 data class OnBoard2Screen(
     @DrawableRes val id: Int,
@@ -49,10 +50,6 @@ fun OnBoard2Screen(
     navController: NavController
 ) {
 
-    val fonts = FontFamily(
-        Font(R.font.fredoka_m, FontWeight.Medium),
-        Font(R.font.fredoka_r, FontWeight.Normal)
-    )
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
