@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
             TestTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Route.Profile.route
+                    startDestination = Route.WordPractice.route
                 ) {
                     composable(Route.Splash.route) {
                         SplashScreen(navController)

@@ -112,26 +112,85 @@ fun ProfileScreen(navController: NavController) {
 
                 },
         ) {
-            repeat(btns.size) { ind ->
-                Button(
-                    onClick = {},//btns[ind].action,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth()
-                        .height((height * 56 / 812).dp),
-                    colors = ButtonDefaults.buttonColors(
-                        btns[ind].color
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text(
-                        btns[ind].text,
-                        fontFamily = fonts,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                    )
-                }
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .height((height * 56 / 812).dp),
+                colors = ButtonDefaults.buttonColors(
+                    Color(0xFF5B7BFE)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(
+                    "Switch to dark",
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                )
+
+            }
+            Button(
+                onClick = {navController.navigate(Route.LanguageSelect.route)},
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .height((height * 56 / 812).dp),
+                colors = ButtonDefaults.buttonColors(
+                    Color(0xFF5B7BFE)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(
+                    "Change your language",
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                )
+
+            }
+            Button(
+                onClick = {navController.navigate(Route.ResizePhoto.route)},
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .height((height * 56 / 812).dp),
+                colors = ButtonDefaults.buttonColors(
+                    Color(0xFF5B7BFE)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(
+                    "Change your photo",
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                )
+
+            }
+            Button(
+                onClick = {navController.navigate(Route.LogIn.route)},
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .height((height * 56 / 812).dp),
+                colors = ButtonDefaults.buttonColors(
+                    Color(0xFFE5E5E5)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(
+                    "Logout",
+                    fontFamily = fonts,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                )
+
             }
         }
     }
