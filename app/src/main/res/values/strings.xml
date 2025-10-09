@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">test</string>
+    <string name="app_name" translatable="false">test</string>
+    <string name="word_practice">Word practice</string>
 </resources>

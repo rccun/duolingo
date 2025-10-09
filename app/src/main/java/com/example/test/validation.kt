@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.util.Patterns
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ fun isPasswordValid(value: String): String {
         }
     }
     val low = value.lowercase() == value
-    val up = value.toUpperCase() == value
+    val up = value.uppercase() == value
     var isSpec = false
     val spec = listOf("@", "№", "$", "#", "&", "%")
     for (i in spec) if (value.contains(i)) {
@@ -40,14 +41,16 @@ fun isPasswordValid(value: String): String {
 fun isValid(value: String): Boolean {
 
     try {
-        val name = value.substring(0, value.indexOf("@"))
-        val domen = value.substring(value.indexOf("@") + 1, value.indexOf("."))
-        val flag = value.indexOf("@") < value.indexOf(".")
-        val flag2 = name.lowercase() == name
-        val flag3 = domen.lowercase() == domen
-        if (!value.contains("@") or !value.contains(".") or !flag or !flag2 or !flag3)
-            return false
-        else return true
+
+        return Patterns.EMAIL_ADDRESS.matcher(value).matches() && value == value.lowercase()
+//        val name = value.substring(0, value.indexOf("@"))
+//        val domen = value.substring(value.indexOf("@") + 1, value.indexOf("."))
+//        val flag = value.indexOf("@") < value.indexOf(".")
+//        val flag2 = name.lowercase() == name
+//        val flag3 = domen.lowercase() == domen
+//        if (!value.contains("@") or !value.contains(".") or !flag or !flag2 or !flag3)
+//            return false
+//        else return true
     } catch (ex: Exception){ return false}
 }
 @Composable

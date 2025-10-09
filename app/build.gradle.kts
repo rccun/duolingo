@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    alias { libs.plugins.ksp }
+    alias { libs.plugins.serialization }
+    alias { libs.plugins.hilt }
 }
 
 android {
@@ -40,6 +44,24 @@ android {
 }
 
 dependencies {
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+
+    implementation(libs.coil)
+    implementation(libs.hilt.navigation)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.supabase.auth)
+    implementation(libs.supabase.storage)
+    implementation(libs.supabase.realtime)
+    implementation(libs.supabase.postgrest)
+    implementation(libs.serialization)
+
+    implementation(libs.gson)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation(libs.android.navigation.compose)
     implementation(libs.androidx.core.ktx)
