@@ -1,7 +1,5 @@
-package com.example.test.presentation.sign_up
+package com.example.duolingo.presentation.sign_up
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -28,17 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.test.MyDialog
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
-import com.example.test.isValid
+import com.example.duolingo.MyDialog
+import com.example.duolingo.R
+import com.example.duolingo.Route
+import com.example.duolingo.fonts
+import com.example.duolingo.isValid
 
 @Composable
 fun SignUpScreen(

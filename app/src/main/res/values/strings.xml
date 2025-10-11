@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name" translatable="false">test</string>
+    <string name="app_name" translatable="false">duolingo</string>
     <string name="word_practice">Word practice</string>
+    <string name="splash_title">Language App</string>
+    <string name="onb1">Confidence in your words</string>
+    <string name="onb2">Take your time to learn</string>
+    <string name="onb3">The lessons you need to learn</string>
+    <string name="onb1desc">With conversation-based learning, you\'ll be talking from lesson one</string>
+    <string name="onb2desc">Develop a habit of learning and make it a part of your daily routine</string>
+    <string name="onb3desc">Using a variety of learning styles to learn and retain</string>
+    <string name="onb1btn">Next</string>
+    <string name="onb2btn">More</string>
+    <string name="onb3btn">Choose a language</string>
+    <string name="onb_skip">Skip onboarding</string>
 </resources>

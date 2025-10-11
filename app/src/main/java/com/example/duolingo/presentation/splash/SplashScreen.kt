@@ -1,8 +1,7 @@
-package com.example.test.presentation.splash
+package com.example.duolingo.presentation.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,14 +18,15 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
+import com.example.duolingo.R
+import com.example.duolingo.Route
 
 
 @Composable
@@ -66,12 +66,11 @@ fun SplashScreen(
 
         )
         Text(
-            text = "Language App",
+            text = stringResource(R.string.splash_title),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             color = Color.White,
             fontSize = 36.sp
         )
-
     }
 }

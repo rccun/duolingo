@@ -1,6 +1,6 @@
-package com.example.test.domain.usecase.Queue
+package com.example.duolingo.domain.usecase.Queue
 
-import com.example.test.domain.repository.QueueRepository
+import com.example.duolingo.domain.repository.QueueRepository
 
 class GetQueueUseCase(
     private val queueRepository: QueueRepository

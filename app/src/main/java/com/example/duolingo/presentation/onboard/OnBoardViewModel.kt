@@ -1,4 +1,4 @@
-package com.example.test.presentation.onboard
+package com.example.duolingo.presentation.onboard
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

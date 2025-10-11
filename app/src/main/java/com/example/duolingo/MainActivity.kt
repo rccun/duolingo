@@ -1,4 +1,4 @@
-package com.example.test
+package com.example.duolingo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,22 +10,22 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.test.presentation.audition.AuditionScreen
-import com.example.test.presentation.game.GameScreen
-import com.example.test.presentation.guess_animal.GuessAnimalScreen
-import com.example.test.presentation.language_select.LanguageSelectScreen
-import com.example.test.presentation.login.LogInScreen
-import com.example.test.presentation.main.MainScreen
-import com.example.test.presentation.onboard.OnBoard2Screen
-import com.example.test.presentation.onboard.OnBoard3Screen
-import com.example.test.presentation.onboard.OnBoardScreen
-import com.example.test.presentation.profile.ProfileScreen
-import com.example.test.presentation.profile.ResizePhotoScreen
-import com.example.test.presentation.sign_up.SignUpPasswordScreen
-import com.example.test.presentation.sign_up.SignUpScreen
-import com.example.test.presentation.splash.SplashScreen
-import com.example.test.presentation.theme.TestTheme
-import com.example.test.presentation.word_practice.WordPracticeScreen
+import com.example.duolingo.presentation.audition.AuditionScreen
+import com.example.duolingo.presentation.game.GameScreen
+import com.example.duolingo.presentation.guess_animal.GuessAnimalScreen
+import com.example.duolingo.presentation.language_select.LanguageSelectScreen
+import com.example.duolingo.presentation.login.LogInScreen
+import com.example.duolingo.presentation.main.MainScreen
+import com.example.duolingo.presentation.onboard.OnBoard2Screen
+import com.example.duolingo.presentation.onboard.OnBoard3Screen
+import com.example.duolingo.presentation.onboard.OnBoardScreen
+import com.example.duolingo.presentation.profile.ProfileScreen
+import com.example.duolingo.presentation.profile.ResizePhotoScreen
+import com.example.duolingo.presentation.sign_up.SignUpPasswordScreen
+import com.example.duolingo.presentation.sign_up.SignUpScreen
+import com.example.duolingo.presentation.splash.SplashScreen
+import com.example.duolingo.presentation.theme.DuolingoTheme
+import com.example.duolingo.presentation.word_practice.WordPracticeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -58,13 +58,13 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
-            TestTheme(dynamicColor = false) {
+            DuolingoTheme (dynamicColor = false) {
                 Scaffold(
 
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.OnBoard2.route,
+                        startDestination = Route.Splash.route,
                         modifier = Modifier
                             .padding(innerPadding)
                     ) {

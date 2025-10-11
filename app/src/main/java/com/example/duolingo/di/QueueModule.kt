@@ -1,10 +1,10 @@
-package com.example.test.di
+package com.example.duolingo.di
 
 import android.content.Context
-import com.example.test.data.repository.QueueRepositoryImpl
-import com.example.test.domain.repository.QueueRepository
-import com.example.test.domain.usecase.Queue.GetQueueUseCase
-import com.example.test.domain.usecase.Queue.SetQueueUseCase
+import com.example.duolingo.data.repository.QueueRepositoryImpl
+import com.example.duolingo.domain.repository.QueueRepository
+import com.example.duolingo.domain.usecase.Queue.GetQueueUseCase
+import com.example.duolingo.domain.usecase.Queue.SetQueueUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.example.test.presentation.theme
+package com.example.duolingo.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

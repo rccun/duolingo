@@ -1,13 +1,11 @@
-package com.example.test.presentation.splash
+package com.example.duolingo.presentation.splash
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.test.domain.usecase.Queue.GetQueueUseCase
-import com.example.test.domain.usecase.Queue.SetQueueUseCase
+import com.example.duolingo.domain.usecase.Queue.GetQueueUseCase
+import com.example.duolingo.domain.usecase.Queue.SetQueueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

@@ -1,4 +1,4 @@
-package com.example.test.domain.repository
+package com.example.duolingo.domain.repository
 
 interface QueueRepository {
 

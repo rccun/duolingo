@@ -1,8 +1,8 @@
-package com.example.test.data.repository
+package com.example.duolingo.data.repository
 
 import android.content.Context
 import androidx.core.content.edit
-import com.example.test.domain.repository.QueueRepository
+import com.example.duolingo.domain.repository.QueueRepository
 
 class QueueRepositoryImpl(
     private val context: Context

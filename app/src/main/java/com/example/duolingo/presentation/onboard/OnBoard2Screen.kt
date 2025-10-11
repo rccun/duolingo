@@ -1,4 +1,4 @@
-package com.example.test.presentation.onboard
+package com.example.duolingo.presentation.onboard
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
+import com.example.duolingo.R
+import com.example.duolingo.Route
+import com.example.duolingo.fonts
 
 data class OnBoard2Screen(
     @DrawableRes val id: Int,
@@ -113,7 +113,7 @@ fun OnBoard2Screen(
         )
         Spacer(Modifier.height(10.dp))
         Text(
-            "Develop a habit of learning and make it a part of your daily routine",
+            "",
             color = Color(0x60080E1E),
             fontFamily = fonts,
             fontWeight = FontWeight.Normal,
@@ -136,7 +136,7 @@ fun OnBoard2Screen(
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "More",
+                "",
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,

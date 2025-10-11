@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "test"
+rootProject.name = "duolingo"
 include(":app")

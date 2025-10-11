@@ -1,4 +1,4 @@
-package com.example.test.presentation.onboard
+package com.example.duolingo.presentation.onboard
 
 sealed interface OnBoardEvent {
 

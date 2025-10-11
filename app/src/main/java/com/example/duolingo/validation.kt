@@ -1,12 +1,15 @@
-package com.example.test
+package com.example.duolingo
 
 import android.util.Patterns
+import androidx.annotation.DrawableRes
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import com.example.duolingo.presentation.onboard.OnBoardScreen
+
 val fonts = FontFamily(
     Font(R.font.fredoka_m, FontWeight.Medium), Font(R.font.fredoka_r, FontWeight.Normal)
 )
@@ -68,3 +71,4 @@ fun MyDialog(
         )
     }
 }
+

@@ -1,4 +1,4 @@
-package com.example.test.presentation.language_select
+package com.example.duolingo.presentation.language_select
 
 
 import androidx.compose.foundation.background
@@ -19,21 +19,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
+import com.example.duolingo.Route
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.duolingo.fonts
 
 
 @Composable
@@ -111,11 +106,11 @@ fun LanguageSelectScreen(
                             .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
                             containerColor =
-                            if (ind.value == lang) {
-                                Color(0xFFF76400)
-                            } else {
-                                Color(0xFFFFF6EB)
-                            }
+                                if (ind.value == lang) {
+                                    Color(0xFFF76400)
+                                } else {
+                                    Color(0xFFFFF6EB)
+                                }
                         ),
                         shape = RoundedCornerShape(20.dp)
                     ) {

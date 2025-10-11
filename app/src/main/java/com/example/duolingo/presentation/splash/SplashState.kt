@@ -1,6 +1,4 @@
-package com.example.test.presentation.splash
-
-import androidx.compose.ui.text.font.Font
+package com.example.duolingo.presentation.splash
 
 data class SplashState(
     val isTimeOut: Boolean = false,

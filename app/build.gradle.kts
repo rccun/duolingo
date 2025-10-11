@@ -9,17 +9,17 @@ plugins {
 }
 
 android {
-    namespace = "com.example.test"
+    namespace = "com.example.duolingo"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.test"
+        applicationId = "com.example.duolingo"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.duolingo.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -52,17 +52,17 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation(libs.supabase.auth)
     implementation(libs.supabase.storage)
     implementation(libs.supabase.realtime)
     implementation(libs.supabase.postgrest)
     implementation(libs.serialization)
-
+   // implementation(libs.androidx.constraintlayout)
     implementation(libs.gson)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation(libs.android.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -1,4 +1,4 @@
-package com.example.test.presentation.onboard
+package com.example.duolingo.presentation.onboard
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,107 +32,124 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
+import com.example.duolingo.R
+import com.example.duolingo.Route
+import com.example.duolingo.fonts
 
 data class OnBoardScreen(
-    @DrawableRes val id: Int,
+    @DrawableRes val img: Int,
     val title: String,
     val desc: String,
+    val btnText: String,
 )
+
 
 @Composable
 fun OnBoardScreen(
     navController: NavController
 ) {
 
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
+
+    val ind = remember { mutableStateOf(0) }
+
 
     val list = listOf(
-        OnBoardScreen(R.drawable.splash, "T1", "D1"),
-        OnBoardScreen(R.drawable.splash, "T1", "D1"),
-        OnBoardScreen(R.drawable.splash, "T1", "D1"),
-    )
+
+        OnBoardScreen(
+            R.drawable.onb1,
+            stringResource(R.string.onb1),
+            stringResource(R.string.onb1desc),
+            stringResource(R.string.onb1btn)
+        ),
+        OnBoardScreen(
+            R.drawable.onb2,
+            stringResource(R.string.onb2),
+            stringResource(R.string.onb2desc),
+            stringResource(R.string.onb2btn)
+        ),
+        OnBoardScreen(
+            R.drawable.onb3,
+            stringResource(R.string.onb3),
+            stringResource(R.string.onb3desc),
+            stringResource(R.string.onb3btn)
+        ),
+    ) //147
+
     Column(
-        modifier = Modifier.padding(
-            top = (height * 147 / 812).dp,
-            start = (width * 24 / 375).dp,
-            end = (width * 24 / 375).dp
-        )
+        modifier = Modifier
+            .padding(horizontal = 25.dp)
     ) {
-        Image(
-            bitmap = ImageBitmap.imageResource(R.drawable.onb1),
-            "onb1",
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .height((height * 220.26 / 812).dp)
-                .width((width * 240 / 375).dp),
+        Spacer(Modifier.weight(2f))
 
-            contentScale = ContentScale.Fit
+        Column (modifier = Modifier
+            .align(Alignment.CenterHorizontally)
 
+            .fillMaxHeight(0.3f)
         )
-        Spacer(modifier = Modifier.height((height * 114.74 / 812).dp))
+        {
+            Image(
+                bitmap = ImageBitmap.imageResource(list[ind.value].img),
+                "onb1",
+                modifier = Modifier
+                    .fillMaxHeight(),
+                contentScale = ContentScale.FillHeight
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy((width * 8 / 375).dp, Alignment.CenterHorizontally)
-        ) {
-            Box(
-                Modifier
-                    .size((width * 8 / 375).dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFF76400), CircleShape)
-            )
-            Box(
-                Modifier
-                    .size((width * 8 / 375).dp)
-                    .clip(CircleShape)
-                    .background(Color(0x20080E1E), CircleShape)
-            )
-            Box(
-                Modifier
-                    .size((width * 8 / 375).dp)
-                    .clip(CircleShape)
-                    .background(Color(0x20080E1E), CircleShape)
             )
         }
+
+        Spacer(Modifier.weight(1.5f))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                Alignment.CenterHorizontally
+            )
+        ) {
+            repeat(list.size) { i ->
+                Box(
+                    Modifier
+                        .size( 8.dp)
+                        .clip(CircleShape)
+                        .background(
+                            if (i == ind.value) Color(0xFFF76400)
+                            else Color(0x20080E1E)
+                        )
+                )
+            }
+        }
+        Spacer(Modifier.height(40.dp))
         Text(
-            "Confidence in your words",
+            list[ind.value].title,
             fontFamily = fonts,
             fontWeight = FontWeight.Medium,
             fontSize = 22.sp,
             color = Color(0xFF080E1E),
             modifier = Modifier
-                .padding(top = (height * 40 / 812).dp)
                 .align(Alignment.CenterHorizontally)
         )
+        Spacer(Modifier.height(10.dp))
         Text(
-            "With conversation-based learning, you'll be talking from lesson one",
+            list[ind.value].desc,
             color = Color(0x60080E1E),
             fontFamily = fonts,
             fontWeight = FontWeight.Normal,
             fontSize = 15.sp,
             modifier = Modifier
-                .padding(
-                    top = (height * 8 / 812).dp,
-                    bottom = (height * 50 / 812).dp,
-                    start = (width * 32 / 375).dp, end = (width * 32 / 375).dp
-                )
                 .align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center
         )
+        Spacer(Modifier.weight(0.2f))
         Button(
-            onClick = { navController.navigate(Route.OnBoard2.route) },
+            onClick = {
+                if (ind.value < 2) ind.value++
+                else navController.navigate(Route.LanguageSelect.route)
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(),
@@ -138,25 +159,25 @@ fun OnBoardScreen(
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Next",
+                list[ind.value].btnText,
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
                 color = Color.White,
             )
         }
+        Spacer(Modifier.height(15.dp))
         Text(
-            "Skip onboarding",
+            stringResource(R.string.onb_skip),
             color = Color(0xFF080E1E),
             fontFamily = fonts,
             fontWeight = FontWeight.Normal,
             fontSize = 15.sp,
             modifier = Modifier
                 .clickable { navController.navigate(Route.LanguageSelect.route) }
-                .padding(top = (height * 16 / 812).dp)
                 .align(Alignment.CenterHorizontally)
         )
-
+        Spacer(Modifier.weight(0.5f))
     }
-
 }
+

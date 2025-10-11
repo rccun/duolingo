@@ -1,4 +1,4 @@
-package com.example.test.presentation.profile
+package com.example.duolingo.presentation.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
+import com.example.duolingo.R
+import com.example.duolingo.Route
+import com.example.duolingo.fonts
 
 data class Btn(
     val text: String,

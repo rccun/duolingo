@@ -1,4 +1,4 @@
-package com.example.test.presentation.sign_up
+package com.example.duolingo.presentation.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -30,20 +29,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
+import com.example.duolingo.R
+import com.example.duolingo.Route
 
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.SpanStyle
-import com.example.test.MyDialog
-import com.example.test.fonts
-import com.example.test.isPasswordValid
+import com.example.duolingo.MyDialog
+import com.example.duolingo.fonts
+import com.example.duolingo.isPasswordValid
 
 
 @Composable

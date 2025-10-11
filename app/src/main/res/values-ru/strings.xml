@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="word_practice">xyinya</string>
+    <string name="word_practice">Словесная практика</string>
+    <string name="splash_title">Языковое приложение</string>
+    <string name="onb1">Уверенность в своих словах</string>
+    <string name="onb2">Не торопитесь, учитесь</string>
+    <string name="onb3">Уроки, которые вам нужно усвоить</string>
+    <string name="onb1desc">Благодаря обучению в формате диалога вы будете говорить с первого урока</string>
+    <string name="onb2desc">Выработайте привычку учиться и сделайте это частью своей повседневной жизни.</string>
+    <string name="onb3desc">Использование различных стилей обучения для изучения и запоминания</string>
+    <string name="onb1btn">Дальше</string>
+    <string name="onb2btn">Больше</string>
+    <string name="onb3btn">Выбрать язык</string>
+    <string name="onb_skip">Пропустить</string>
 </resources>

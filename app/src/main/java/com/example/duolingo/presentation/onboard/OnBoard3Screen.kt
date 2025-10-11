@@ -1,6 +1,5 @@
-package com.example.test.presentation.onboard
+package com.example.duolingo.presentation.onboard
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,16 +27,14 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.test.R
-import com.example.test.Route
-import com.example.test.fonts
+import com.example.duolingo.R
+import com.example.duolingo.Route
+import com.example.duolingo.fonts
 
 
 @Composable
@@ -93,7 +90,7 @@ fun OnBoard3Screen(
             )
         }
         Text(
-            "The lessons you need to learn",
+            "",
             fontFamily = fonts,
             fontWeight = FontWeight.Medium,
             fontSize = 22.sp,
@@ -103,7 +100,7 @@ fun OnBoard3Screen(
                 .align(Alignment.CenterHorizontally)
         )
         Text(
-            "Using a variety of learning styles to learn and retain",
+            "",
             color = Color(0x60080E1E),
             fontFamily = fonts,
             fontWeight = FontWeight.Normal,
@@ -128,7 +125,7 @@ fun OnBoard3Screen(
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Choose a language",
+                "",
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,

@@ -1,4 +1,4 @@
-package com.example.test.presentation.game
+package com.example.duolingo.presentation.game
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.example.test.presentation.theme
+package com.example.duolingo.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -6,17 +6,23 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.test.R
+import com.example.duolingo.R
 
 // Set of Material typography styles to start with
-val fontFamily = FontFamily(Font(R.font.fredoka_sb, FontWeight.SemiBold))
+
+val fonts = FontFamily(
+    Font(R.font.fredoka_sb, FontWeight.SemiBold),
+    Font(R.font.fredoka_m, FontWeight.Medium),
+    Font(R.font.fredoka_r, FontWeight.Normal)
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = fontFamily,
+        fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+//        fontSize = 16.sp,
+//        lineHeight = 24.sp,
+//        letterSpacing = 0.5.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
