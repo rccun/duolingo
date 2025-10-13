@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.Route
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.duolingo.R
 import com.example.duolingo.fonts
 
 
@@ -37,43 +40,41 @@ fun LanguageSelectScreen(
 ) {
 
 
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
+//    val configuration = LocalConfiguration.current
+//    val width = configuration.screenWidthDp
+//    val height = configuration.screenHeightDp
 
 
-
-    val languages = listOf("Russian", "English", "Chinese", "Belarus", "Kazakh")
+    val languages = LocalContext.current.resources.getStringArray(R.array.langs).toList()
 
     Column() {
-        Box(modifier = Modifier.fillMaxWidth().background(Color(0xFF410FA3))) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF410FA3))) {
             Text(
-                "Language select",
+
+                stringResource(R.string.lang_select_title),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 17 / 812).sp,
+                fontSize = 17.sp,
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = (height * 60 / 812).dp,
-                        bottom = (height * 20 / 812).dp
+                        bottom = 20.dp
                     )
                     .align(Alignment.Center)
             )
-
         }
         ConstraintLayout(
             modifier = Modifier
                 .padding(
-                    top = (height * 12 / 812).dp,
-                    start = (width * 24 / 375).dp,
-                    end = (width * 24 / 375).dp
+                    horizontal = 24.dp
                 )
                 .fillMaxSize()
         ) {
             val (text, lazy, btn) = createRefs()
             Text(
-                "What is your Mother language?",
+                stringResource(R.string.lang_select_text),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 22.sp,
@@ -83,13 +84,13 @@ fun LanguageSelectScreen(
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                     }
-                    .padding(bottom = (height * 16 / 812).dp)
+                    .padding(bottom = 16.dp)
 
             )
-            val ind = remember { mutableStateOf("Russian") }
+            val ind = remember { mutableStateOf(languages[0]) }
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(
-                    (height * 12 / 812).dp,
+                    12.dp,
                     Alignment.CenterVertically
                 ),
                 modifier = Modifier.constrainAs(lazy) {
@@ -118,13 +119,12 @@ fun LanguageSelectScreen(
                             lang,
                             modifier = Modifier
                                 .padding(
-                                    top = (height * 20 / 812).dp,
-                                    bottom = (height * 20 / 812).dp
+                                    vertical = 20.dp
                                 )
                                 .fillMaxWidth(),
                             fontFamily = fonts,
                             fontWeight = FontWeight.Medium,
-                            fontSize = (height * 22 / 812).sp,
+                            fontSize = 22.sp,
                             color = Color.Black,
                             textAlign = TextAlign.Start
                         )
@@ -137,7 +137,7 @@ fun LanguageSelectScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .constrainAs(btn) {
-                        bottom.linkTo(parent.bottom, margin = (height * 25 / 812).dp)
+                        bottom.linkTo(parent.bottom, margin = 25.dp)
                         start.linkTo(parent.start)
                     },
                 colors = ButtonDefaults.buttonColors(
@@ -146,12 +146,12 @@ fun LanguageSelectScreen(
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    "Choose",
+                    stringResource(R.string.btn_choose),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
-                    fontSize = (height * 20 / 812).sp,
+                    fontSize = 20.sp,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = (height * 16 / 812).dp)
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
 

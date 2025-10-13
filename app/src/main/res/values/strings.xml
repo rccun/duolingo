@@ -12,4 +12,27 @@
     <string name="onb2btn">More</string>
     <string name="onb3btn">Choose a language</string>
     <string name="onb_skip">Skip onboarding</string>
+    <string name="lang_select_title">Language select</string>
+    <string name="lang_select_text">What is your Mother language?</string>
+    <string-array name="langs">
+        <item>Russian</item>
+        <item>English</item>
+        <item>Chinese</item>
+        <item>Belarus</item>
+        <item>Kazakh</item>
+    </string-array>
+    <string name="btn_choose">Choose</string>
+    <string name="sign_up">Sign up</string>
+    <string name="create_acc">Create an account</string>
+    <string name="first_name">First name</string>
+    <string name="your_fn">Your first name</string>
+    <string name="last_name">Last name</string>
+    <string name="your_ln">Your last name</string>
+    <string name="email">Email</string>
+    <string name="btn_continue">Continue</string>
+    <string name="already_memb">"Already you member? "</string>
+    <string name="login">Login</string>
+    <string name="error">Error</string>
+    <string name="uncorrect_email">Enter the valid email</string>
+    <string name="ok">Ok</string>
 </resources>

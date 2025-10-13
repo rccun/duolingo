@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -63,7 +64,7 @@ fun SignUpScreen(
                     .clickable { navController.navigate(Route.LogIn.route) })
 
             Text(
-                "Sign up",
+                stringResource(R.string.sign_up),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = (height * 17 / 812).sp,
@@ -91,7 +92,7 @@ fun SignUpScreen(
             val last_name = remember { mutableStateOf("") }
             val email = remember { mutableStateOf("") }
             Text(
-                "Create an Account",
+                stringResource(R.string.create_acc),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = (height * 8 / 812).dp),
@@ -102,7 +103,7 @@ fun SignUpScreen(
             )
 
             Text(
-                "First name",
+                stringResource(R.string.first_name),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
                 fontSize = (height * 15 / 812).sp,
@@ -123,7 +124,7 @@ fun SignUpScreen(
                 shape = RoundedCornerShape(16.dp),
                 placeholder = {
                     Text(
-                        "Your first name",
+                        stringResource(R.string.your_fn),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
                         fontSize = (height * 15 / 812).sp,
@@ -133,7 +134,7 @@ fun SignUpScreen(
                         )
                 })
             Text(
-                "Last name",
+                stringResource(R.string.last_name),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
                 fontSize = (height * 15 / 812).sp,
@@ -154,7 +155,7 @@ fun SignUpScreen(
                 shape = RoundedCornerShape(16.dp),
                 placeholder = {
                     Text(
-                        "Your last name",
+                        stringResource(R.string.your_ln),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
                         fontSize = (height * 15 / 812).sp,
@@ -164,7 +165,7 @@ fun SignUpScreen(
                         )
                 })
             Text(
-                "Email",
+                stringResource(R.string.email),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
                 fontSize = (height * 15 / 812).sp,
@@ -185,7 +186,7 @@ fun SignUpScreen(
                 shape = RoundedCornerShape(16.dp),
                 placeholder = {
                     Text(
-                        "Email",
+                        stringResource(R.string.email),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
                         fontSize = (height * 15 / 812).sp,
@@ -208,7 +209,7 @@ fun SignUpScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Continue",
+                    stringResource(R.string.btn_continue),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
@@ -218,14 +219,14 @@ fun SignUpScreen(
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
-                    "Already you member? ",
+                    stringResource(R.string.already_memb),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Normal,
                     fontSize = (height * 17 / 812).sp,
                     color = Color(0xFF656872),
                 )
                 Text(
-                    "Login",
+                    stringResource(R.string.login),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = (height * 17 / 812).sp,
@@ -234,14 +235,14 @@ fun SignUpScreen(
 
             }
             MyDialog(
-                title = "Ошибка",
-                text = "Введите корректный email",
+                title = stringResource(R.string.error),
+                text = stringResource(R.string.uncorrect_email),
                 show = showDialog.value,
-                onDismissRequest = { showDialog.value = false }, // Закрытие по клику вне окна
+                onDismissRequest = { showDialog.value = false },
                 confirmButton = {
                     TextButton(onClick = { showDialog.value = false
                     email.value = ""}) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 }
             )

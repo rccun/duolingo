@@ -36,7 +36,6 @@ fun SplashScreen(
 ) {
 
     val state = viewModel.state.value
-    val f_sb = FontFamily(Font(R.font.fredoka_sb))
 
     LaunchedEffect(state.isTimeOut) {
         if (state.isTimeOut) {

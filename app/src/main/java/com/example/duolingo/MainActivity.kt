@@ -16,8 +16,6 @@ import com.example.duolingo.presentation.guess_animal.GuessAnimalScreen
 import com.example.duolingo.presentation.language_select.LanguageSelectScreen
 import com.example.duolingo.presentation.login.LogInScreen
 import com.example.duolingo.presentation.main.MainScreen
-import com.example.duolingo.presentation.onboard.OnBoard2Screen
-import com.example.duolingo.presentation.onboard.OnBoard3Screen
 import com.example.duolingo.presentation.onboard.OnBoardScreen
 import com.example.duolingo.presentation.profile.ProfileScreen
 import com.example.duolingo.presentation.profile.ResizePhotoScreen
@@ -33,8 +31,6 @@ sealed class Route(val route: String) {
 
     data object Splash: Route("Splash")
     data object OnBoard: Route("OnBoard")
-    data object OnBoard2: Route("OnBoard2")
-    data object OnBoard3: Route("OnBoard3")
     data object LanguageSelect: Route("LanguageSelect")
     data object SignUp: Route("SignUp")
     data object SignUpPassword: Route("SignUpPassword")
@@ -64,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.Splash.route,
+                        startDestination = Route.SignUp.route,
                         modifier = Modifier
                             .padding(innerPadding)
                     ) {
@@ -73,12 +69,6 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Route.OnBoard.route) {
                             OnBoardScreen(navController)
-                        }
-                        composable(Route.OnBoard2.route) {
-                            OnBoard2Screen(navController)
-                        }
-                        composable(Route.OnBoard3.route) {
-                            OnBoard3Screen(navController)
                         }
                         composable(Route.LanguageSelect.route) {
                             LanguageSelectScreen(navController)

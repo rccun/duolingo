@@ -12,4 +12,27 @@
     <string name="onb2btn">Больше</string>
     <string name="onb3btn">Выбрать язык</string>
     <string name="onb_skip">Пропустить</string>
+    <string name="lang_select_title">Выбор языка</string>
+    <string name="lang_select_text">Какой ваш родной язык?</string>
+    <string name="btn_choose">Выбрать</string>
+    <string-array name="langs">
+        <item>Русский</item>
+        <item>Английский</item>
+        <item>Китайский</item>
+        <item>Беларусский</item>
+        <item>Казахский</item>
+    </string-array>
+    <string name="sign_up">Регистрация</string>
+    <string name="create_acc">Создание аккаунта</string>
+    <string name="first_name">Имя</string>
+    <string name="your_fn">Ваше имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="your_ln">Ваша фамилия</string>
+    <string name="email">Почта</string>
+    <string name="btn_continue">Продолжить</string>
+    <string name="already_memb">"Уже есть аккаунт? "</string>
+    <string name="login">Вход</string>
+    <string name="error">Ошибка</string>
+    <string name="uncorrect_email">Введите корректный адрес почты</string>
+    <string name="ok">Ок</string>
 </resources>
