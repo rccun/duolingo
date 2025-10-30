@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -30,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
 
 data class OnBoardScreen(
@@ -65,7 +62,7 @@ fun OnBoardScreen(
             R.drawable.onb1,
             stringResource(R.string.onb1),
             stringResource(R.string.onb1desc),
-            stringResource(R.string.onb1btn)
+            stringResource(R.string.btn_next)
         ),
         OnBoardScreen(
             R.drawable.onb2,
@@ -148,7 +145,7 @@ fun OnBoardScreen(
         Button(
             onClick = {
                 if (ind.value < 2) ind.value++
-                else navController.navigate(Route.LanguageSelect.route)
+                else navController.navigate(Route.LanguageSelect)
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -174,7 +171,7 @@ fun OnBoardScreen(
             fontWeight = FontWeight.Normal,
             fontSize = 15.sp,
             modifier = Modifier
-                .clickable { navController.navigate(Route.LanguageSelect.route) }
+                .clickable { navController.navigate(Route.LanguageSelect) }
                 .align(Alignment.CenterHorizontally)
         )
         Spacer(Modifier.weight(0.5f))

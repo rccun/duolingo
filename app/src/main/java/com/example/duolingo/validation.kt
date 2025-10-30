@@ -3,12 +3,17 @@ package com.example.duolingo
 import android.util.Patterns
 import androidx.annotation.DrawableRes
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.example.duolingo.presentation.onboard.OnBoardScreen
+import androidx.compose.runtime.*
 
 val fonts = FontFamily(
     Font(R.font.fredoka_m, FontWeight.Medium), Font(R.font.fredoka_r, FontWeight.Normal)
@@ -71,4 +76,40 @@ fun MyDialog(
         )
     }
 }
+// theme/ThemeManager.kt
+class ThemeManager {
+    var isDarkTheme by mutableStateOf(false)
+        private set
 
+    fun toggleTheme() {
+        isDarkTheme = !isDarkTheme
+        // Здесь можно добавить сохранение в SharedPreferences
+    }
+
+}
+
+// theme/ThemeLocal.kt
+val LocalThemeManager = staticCompositionLocalOf<ThemeManager> {
+    error("ThemeManager not provided!")
+}
+// theme/ThemeProvider.kt
+@Composable
+fun ThemeProvider(
+    content: @Composable () -> Unit
+) {
+    val themeManager = remember { ThemeManager() }
+
+    CompositionLocalProvider(
+        LocalThemeManager provides themeManager
+    ) {
+        MaterialTheme(
+            colorScheme = if (themeManager.isDarkTheme) darkColorScheme() else lightColorScheme(),
+            content = content
+        )
+    }
+}
+//return Result.failure(IllegalArgumentException("Email не должен быть пустым"))
+
+//password = _state.value.pa,
+//firstName = _state.value.firstName,
+//lastName = _state.value.lastName

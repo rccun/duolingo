@@ -7,11 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,21 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
 
 @Composable
-fun guessAnimal(
-    width: Int,
-    height: Int,
+fun GuessAnimal(
     answer: MutableState<String>,
     page: MutableState<String>,
 ) {
@@ -51,27 +48,21 @@ fun guessAnimal(
 
     Column(
         modifier = Modifier
-            .padding(
-                top = (height * 17 / 812).dp,
-                start = (width * 24 / 375).dp,
-                end = (width * 24 / 375).dp
-            )
+            .padding(25.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy((height * 17 / 812).dp)
+        verticalArrangement = Arrangement.spacedBy(17.dp)
     ) {
         Box(modifier = Modifier.clip(shape = RoundedCornerShape(20.dp))) {
             Image(
                 bitmap = ImageBitmap.imageResource(R.drawable.racoon),
                 "blabla",
-                modifier = Modifier
-                    .height((height * 328 / 812).dp)
-                    .width((width * 328 / 375).dp),
-                contentScale = ContentScale.Fit
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
             )
         }
 
         Text(
-            "Write who is on image",
+            stringResource(R.string.guess_text),
             fontFamily = fonts,
             fontWeight = FontWeight.Normal,
             fontSize = 15.sp,
@@ -95,15 +86,14 @@ fun guessAnimal(
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .height((height * 56 / 812).dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 Color(0xFF5B7BFE)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Check",
+                stringResource(R.string.btn_check),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
@@ -112,17 +102,15 @@ fun guessAnimal(
 
         }
     }
-
 }
 
 @Composable
-fun successGuess(
-    width: Int,
-    height: Int,
+fun SuccessGuess(
     answer: MutableState<String>,
     page: MutableState<String>,
 ) {
-    Column(modifier = Modifier.padding(horizontal = (width * 24 / 375).dp)) {
+    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+        Spacer(Modifier.weight(1f))
         Text(
             "\uD83C\uDF89",
             fontFamily = fonts,
@@ -130,17 +118,17 @@ fun successGuess(
             fontSize = 160.sp,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(vertical = (height * 75 / 812).dp)
         )
+        Spacer(Modifier.weight(1f))
         Text(
-            "Holy Molly! That is Right!",
+            stringResource(R.string.success_guess),
             fontFamily = fonts,
             fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = (height * 42 / 812).dp)
         )
+        Spacer(Modifier.weight(0.5f))
         Button(
             onClick = {
                 page.value = "Guess";
@@ -148,15 +136,14 @@ fun successGuess(
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .height((height * 56 / 812).dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 Color(0xFF5B7BFE)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Next",
+                stringResource(R.string.btn_next),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
@@ -164,17 +151,19 @@ fun successGuess(
             )
 
         }
+        Spacer(Modifier.weight(6f))
+
     }
 }
 
 @Composable
-fun errorGuess(
-    width: Int,
-    height: Int,
+fun ErrorGuess(
     answer: MutableState<String>,
     page: MutableState<String>,
 ) {
-    Column(modifier = Modifier.padding(horizontal = (width * 24 / 375).dp)) {
+    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+        Spacer(Modifier.weight(1f))
+
         Text(
             "\uD83D\uDE3F",
             fontFamily = fonts,
@@ -182,17 +171,16 @@ fun errorGuess(
             fontSize = 160.sp,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(vertical = (height * 75 / 812).dp)
         )
+        Spacer(Modifier.weight(1f))
         Text(
-            "Eh? Wrong answer :(\n" +
-                    "That is: Racoon",
+            stringResource(R.string.error_guess),
             fontFamily = fonts,
             fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = (height * 18 / 812).dp)
+                .padding(bottom = 18.dp)
         )
         Button(
             onClick = {
@@ -202,15 +190,14 @@ fun errorGuess(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
-                .height((height * 56 / 812).dp)
-                .padding(bottom = (height * 11 / 812).dp),
+                .padding(bottom = 11.dp),
             colors = ButtonDefaults.buttonColors(
                 Color(0xFF5B7BFE)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Next",
+                stringResource(R.string.btn_next),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
@@ -225,15 +212,14 @@ fun errorGuess(
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .fillMaxWidth()
-                .height((height * 56 / 812).dp),
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 Color(0xFF5B7BFE)
             ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Try again",
+                stringResource(R.string.btn_try_again),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
@@ -241,6 +227,8 @@ fun errorGuess(
             )
 
         }
+        Spacer(Modifier.weight(6f))
+
     }
 
 }
@@ -249,9 +237,6 @@ fun errorGuess(
 fun GuessAnimalScreen(navController: NavController) {
     val answer = remember { mutableStateOf("") }
     val page = remember { mutableStateOf("Guess") }
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
     Column()
     {
         Row(
@@ -275,31 +260,26 @@ fun GuessAnimalScreen(navController: NavController) {
                 imageVector = ImageVector.vectorResource(R.drawable.back2),
                 "back",
                 modifier = Modifier
-                    .padding(
-                        top = (height * 44 / 812).dp,
-                        start = (width * 24 / 375).dp,
-                        end = (width * 21 / 375).dp,
-                        bottom = (height * 21 / 812).dp
-                    )
-                    .clickable { navController.navigate(Route.Main.route) })
+                    .padding(20.dp)
+                    .clickable { navController.navigate(Route.Main) })
 
             Text(
-                "Guess the animal",
+                stringResource(R.string.guess_animal),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 22 / 812).sp,
+                fontSize = 22.sp,
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = (height * 44 / 812).dp, bottom = (height * 20 / 812).dp
+                        vertical = 20.dp,
                     )
             )
 
         }
         when (page.value) {
-            "Guess" -> guessAnimal(width, height, answer, page)
-            "Success" -> successGuess(width, height, answer, page)
-            "Error" -> errorGuess(width, height, answer, page)
+            "Guess" -> GuessAnimal(answer, page)
+            "Success" -> SuccessGuess(answer, page)
+            "Error" -> ErrorGuess(answer, page)
         }
     }
 }

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">duolingo</string>
-    <string name="word_practice">Word practice</string>
     <string name="splash_title">Language App</string>
     <string name="onb1">Confidence in your words</string>
     <string name="onb2">Take your time to learn</string>
@@ -8,7 +7,7 @@
     <string name="onb1desc">With conversation-based learning, you\'ll be talking from lesson one</string>
     <string name="onb2desc">Develop a habit of learning and make it a part of your daily routine</string>
     <string name="onb3desc">Using a variety of learning styles to learn and retain</string>
-    <string name="onb1btn">Next</string>
+    <string name="btn_next">Next</string>
     <string name="onb2btn">More</string>
     <string name="onb3btn">Choose a language</string>
     <string name="onb_skip">Skip onboarding</string>
@@ -21,6 +20,7 @@
         <item>Belarus</item>
         <item>Kazakh</item>
     </string-array>
+    <string name="ok">Ok</string>
     <string name="btn_choose">Choose</string>
     <string name="sign_up">Sign up</string>
     <string name="create_acc">Create an account</string>
@@ -34,5 +34,40 @@
     <string name="login">Login</string>
     <string name="error">Error</string>
     <string name="uncorrect_email">Enter the valid email</string>
-    <string name="ok">Ok</string>
+    <string name="login_text">For free, join now and start learning</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="forgot_passw">Forgot password</string>
+    <string name="not_memb">"Not you member? "</string>
+    <string name="choose_passw">Choose a Password</string>
+    <string name="conf_passw">Confirm password</string>
+    <string name="rules_i">I </string>
+    <string name="rules_clickable_text">have made myself acquainted with the Rules</string>
+    <string name="rules_text"> and accept all its provisions</string>
+    <string name="hello">Hello, Emil</string>
+    <string name="main_desc">Are you ready for learning today?</string>
+    <string name="top_users">Top users</string>
+    <string name="vincent">Vincent van Gogh</string>
+    <string name="mendeleev">Dmitri Ivanovich Mendeleev</string>
+    <string name="tepes">Vlad Tepes</string>
+    <string name="points">" points"</string>
+    <string name="exer_title">Avaliable exersizes</string>
+    <string name="guess_animal">Guess the animal</string>
+    <string name="word_practice">Word practice</string>
+    <string name="audition">Audition</string>
+    <string name="game">Game</string>
+    <string name="guess_text">Write who is on image</string>
+    <string name="btn_check">Check</string>
+    <string name="success_guess">Holy Molly! That is Right!</string>
+    <string name="error_guess">Eh? Wrong answer :(\n" +
+                    "That is: Racoon</string>
+    <string name="btn_try_again">Try again</string>
+    <string name="your_prof">Your profile, Emil</string>
+    <string name="btn_switch_dark">Switch to dark</string>
+    <string name="btn_switch_light">Switch to light</string>
+    <string name="btn_change_lang">Change your language</string>
+    <string name="btn_change_photo">Change your photo</string>
+    <string name="btn_logout">Logout</string>
+    <string name="resize_title">Your photo is gorgeous!</string>
+    <string name="btn_use">Use that photo</string>
 </resources>

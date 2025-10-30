@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,23 +27,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.duolingo.Route
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.duolingo.R
 import com.example.duolingo.fonts
+import com.example.duolingo.presentation.Route
 
 
 @Composable
 fun LanguageSelectScreen(
     navController: NavController
 ) {
-
-
-//    val configuration = LocalConfiguration.current
-//    val width = configuration.screenWidthDp
-//    val height = configuration.screenHeightDp
-
-
     val languages = LocalContext.current.resources.getStringArray(R.array.langs).toList()
 
     Column() {
@@ -60,7 +52,7 @@ fun LanguageSelectScreen(
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        bottom = 20.dp
+                        vertical = 20.dp
                     )
                     .align(Alignment.Center)
             )
@@ -81,7 +73,7 @@ fun LanguageSelectScreen(
                 color = Color(0xFF080E1E),
                 modifier = Modifier
                     .constrainAs(text) {
-                        top.linkTo(parent.top)
+                        top.linkTo(parent.top, margin = 12.dp)
                         start.linkTo(parent.start)
                     }
                     .padding(bottom = 16.dp)
@@ -133,7 +125,7 @@ fun LanguageSelectScreen(
                 }
             }
             Button(
-                onClick = { navController.navigate(Route.SignUp.route) },
+                onClick = { navController.navigate(Route.SignUp) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .constrainAs(btn) {
@@ -154,7 +146,6 @@ fun LanguageSelectScreen(
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
-
         }
     }
 }

@@ -21,8 +21,6 @@ object QueueModule {
     fun provideQueueRepository(@ApplicationContext context: Context): QueueRepository {
         return QueueRepositoryImpl(context)
     }
-
-
     @Provides
     @Singleton
     fun provideGetQueueUseCase(queueRepository: QueueRepository) =

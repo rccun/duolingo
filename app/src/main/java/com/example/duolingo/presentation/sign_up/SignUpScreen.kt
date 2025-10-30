@@ -1,5 +1,6 @@
 package com.example.duolingo.presentation.sign_up
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,85 +18,85 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.duolingo.MyDialog
 import com.example.duolingo.R
-import com.example.duolingo.Route
 import com.example.duolingo.fonts
-import com.example.duolingo.isValid
+import com.example.duolingo.presentation.Route
+import com.example.duolingo.presentation.components.MyAlertDialog
 
 @Composable
 fun SignUpScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
-    var showDialog = remember { mutableStateOf(false) }
-
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
+    val state = viewModel.state.value
+    LaunchedEffect(state.isEmailValid) {
+        if (state.isEmailValid == true) {
+            navController.navigate(Route.SignUpPassword)
+        }
+    }
+    val showDialog = remember { mutableStateOf(false) }
+    val titleDialog = remember { mutableStateOf("Error") }
+    val messageDialogText = remember { mutableStateOf("") }
 
     Column() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color(0xFF410FA3))
-        ) {
+        )
+        {
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.icon_back),
                 "back",
                 modifier = Modifier
                     .padding(
-                        top = (height * 61 / 812).dp,
-                        start = (width * 24 / 375).dp,
-                        bottom = (height * 21 / 812).dp
+                        vertical = 20.dp,
+                        horizontal = 24.dp,
                     )
-                    .clickable { navController.navigate(Route.LogIn.route) })
+                    .clickable { navController.navigate(Route.SignUp) })
 
             Text(
                 stringResource(R.string.sign_up),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 17 / 812).sp,
+                fontSize = 17.sp,
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = (height * 60 / 812).dp, bottom = (height * 20 / 812).dp
+                        vertical = 20.dp
                     )
                     .align(Alignment.Center)
             )
 
         }
 
-
         Column(
             modifier = Modifier
                 .padding(
-                    top = (height * 40 / 812).dp,
-                    start = (width * 24 / 375).dp,
-                    end = (width * 24 / 375).dp
+                    horizontal = 24.dp
                 )
                 .fillMaxSize()
         ) {
-            val first_name = remember { mutableStateOf("") }
-            val last_name = remember { mutableStateOf("") }
-            val email = remember { mutableStateOf("") }
             Text(
                 stringResource(R.string.create_acc),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = (height * 8 / 812).dp),
+                    .padding(bottom = 8.dp, top = 40.dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 22.sp,
@@ -106,15 +107,15 @@ fun SignUpScreen(
                 stringResource(R.string.first_name),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
+                fontSize = 15.sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = 24.dp, bottom = 8.dp
                 )
             )
             TextField(
-                value = first_name.value,
-                onValueChange = { first_name.value = it },
+                value = state.firstName,
+                onValueChange = { viewModel.onEvent(SignUpEvents.OnFirstNameValueChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(0x05080E1E),
@@ -127,25 +128,23 @@ fun SignUpScreen(
                         stringResource(R.string.your_fn),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
+                        fontSize = 15.sp,
                         color = Color(0x50656872),
-
-
                         )
                 })
             Text(
                 stringResource(R.string.last_name),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
+                fontSize = 15.sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = 24.dp, bottom = 8.dp
                 )
             )
             TextField(
-                value = last_name.value,
-                onValueChange = { last_name.value = it },
+                value = state.lastName,
+                onValueChange = { viewModel.onEvent(SignUpEvents.OnLastNameValueChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(0x05080E1E),
@@ -158,7 +157,7 @@ fun SignUpScreen(
                         stringResource(R.string.your_ln),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
+                        fontSize = 15.sp,
                         color = Color(0x50656872),
 
 
@@ -168,15 +167,15 @@ fun SignUpScreen(
                 stringResource(R.string.email),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
+                fontSize = 15.sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = 24.dp, bottom = 8.dp
                 )
             )
             TextField(
-                value = email.value,
-                onValueChange = { email.value = it },
+                value = state.email,
+                onValueChange = { viewModel.onEvent(SignUpEvents.OnEmailValueChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(0x05080E1E),
@@ -189,20 +188,23 @@ fun SignUpScreen(
                         stringResource(R.string.email),
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
+                        fontSize = 15.sp,
                         color = Color(0x50656872),
                     )
                 }
             )
             Button(
                 onClick = {
-                    if (isValid(email.value)) navController.navigate(Route.SignUpPassword.route)
-                    else showDialog.value = true
+                    viewModel.onEvent(SignUpEvents.OnNextClick)
+                    showDialog.value = state.isEmailValid == false
+                    Log.d("TAG email valid", state.isEmailValid.toString())
+                    Log.d("TAG15", state.errorMessage)
+                    messageDialogText.value = state.errorMessage
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
-                    .padding(top = (height * 34 / 812).dp, bottom = (height * 24 / 812).dp),
+                    .padding(vertical = 24.dp),
                 colors = ButtonDefaults.buttonColors(
                     Color(0xFF5B7BFE)
                 ),
@@ -214,34 +216,41 @@ fun SignUpScreen(
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = (height * 16 / 812).dp)
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally))
+            {
                 Text(
                     stringResource(R.string.already_memb),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Normal,
-                    fontSize = (height * 17 / 812).sp,
+                    fontSize = 17.sp,
                     color = Color(0xFF656872),
                 )
                 Text(
                     stringResource(R.string.login),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
-                    fontSize = (height * 17 / 812).sp,
+                    fontSize = 17.sp,
                     color = Color(0xFF5B7BFE),
-                    modifier = Modifier.clickable { navController.navigate(Route.LogIn.route) })
+                    modifier = Modifier.clickable { navController.navigate(Route.LogIn) })
 
             }
-            MyDialog(
-                title = stringResource(R.string.error),
-                text = stringResource(R.string.uncorrect_email),
+            MyAlertDialog(
+                title = titleDialog.value,
+                text = messageDialogText.value,
+
+//                title = stringResource(R.string.error),
+//                text = stringResource(R.string.uncorrect_email),
+
                 show = showDialog.value,
                 onDismissRequest = { showDialog.value = false },
                 confirmButton = {
-                    TextButton(onClick = { showDialog.value = false
-                    email.value = ""}) {
+                    TextButton(onClick = {
+                        showDialog.value = false
+                        viewModel.onEvent(SignUpEvents.OnEmailValueChange(""))
+                    }) {
                         Text(stringResource(R.string.ok))
                     }
                 }

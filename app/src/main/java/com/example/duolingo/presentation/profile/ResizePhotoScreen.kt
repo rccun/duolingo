@@ -16,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.duolingo.Route
+import com.example.duolingo.R
+import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
 
 @Composable
@@ -39,7 +41,7 @@ fun ResizePhotoScreen(navController: NavController) {
         )
         {
             Text(
-                "Your photo is gorgeous!",
+                stringResource(R.string.resize_title),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = (height * 22 / 812).sp,
@@ -60,7 +62,7 @@ fun ResizePhotoScreen(navController: NavController) {
 
         }
         Button(
-            onClick = { navController.navigate(Route.Profile.route) },
+            onClick = { navController.navigate(Route.Profile) },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
@@ -76,7 +78,7 @@ fun ResizePhotoScreen(navController: NavController) {
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
-                "Use that photo",
+                stringResource(R.string.btn_use),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,

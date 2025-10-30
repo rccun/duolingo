@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,19 +31,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
 
 
 @Composable
 fun WordPracticeScreen(navController: NavController) {
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
     val words = listOf<String>("Муха", "Садовник", "Гладиолус", "Собака")
     val ans = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
-    // val ans = remember { mutableStateOf("") }
     Column() {
         TopAppBar(
             title = {
@@ -53,7 +47,7 @@ fun WordPracticeScreen(navController: NavController) {
                     text = stringResource(R.string.word_practice),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
-                    fontSize = (height * 22 / 812).sp,
+                    fontSize = 22.sp,
                     color = Color.White
                 )
             },
@@ -63,7 +57,7 @@ fun WordPracticeScreen(navController: NavController) {
                     "back",
                     modifier = Modifier
                         .padding(end = 20.dp)
-                        .clickable { navController.navigate(Route.Main.route) })
+                        .clickable { navController.navigate(Route.Main) })
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Blue
@@ -71,14 +65,14 @@ fun WordPracticeScreen(navController: NavController) {
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = (width * 24 / 375).dp)
+                .padding(horizontal = 24.dp)
                 .fillMaxWidth()
         ) {
             Text(
                 "gardener",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = (height * 34 / 812).dp),
+                    .padding(top = 34.dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 28.sp
@@ -87,27 +81,23 @@ fun WordPracticeScreen(navController: NavController) {
                 "[ 'gɑ:dnə ]",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = (height * 2 / 812).dp, bottom = (height * 35 / 812).dp),
+                    .padding(top = 2.dp, bottom = 35.dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
                 fontSize = 17.sp
             )
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy((height * 10 / 812).dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.weight(1f)
             )
             {
                 itemsIndexed(words) { ind, w ->
 
                     Button(
-                        onClick = {
-                            ans.value = w
-
-                        },
-                        enabled = true,//if () {} else {},
+                        onClick = { ans.value = w },
+                        enabled = true,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height((height * 56 / 812).dp),
+                            .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
                             if (!isChecked.value) {
                                 if (ans.value == w) {
@@ -137,36 +127,32 @@ fun WordPracticeScreen(navController: NavController) {
                             fontSize = 20.sp,
 
                             color =
-                                if (!isChecked.value) {
+                            if (!isChecked.value) {
+                                if (ans.value == w) {
+                                    Color.White
+                                } else {
+                                    Color(0xFF080E1E)
+                                }
+                            } else {
+                                if (ans.value == "Садовник") {
+                                    Color(0xFF080E1E)
+                                } else {
                                     if (ans.value == w) {
                                         Color.White
                                     } else {
                                         Color(0xFF080E1E)
                                     }
-                                } else {
-                                    if (ans.value == "Садовник") {
-                                        Color(0xFF080E1E)
-                                    } else {
-                                        if (ans.value == w) {
-                                            Color.White
-                                        } else {
-                                            Color(0xFF080E1E)
-                                        }
-                                    }
                                 }
+                            }
                         )
                     }
                 }
             }
             Button(
-                onClick = {
-                    //ans.value = ""
-                    isChecked.value = !isChecked.value
-                },
+                onClick = { isChecked.value = !isChecked.value },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = (height * 24 / 812).dp)
-                    .height((height * 56 / 812).dp),
+                    .padding(bottom = 24.dp),
                 colors = ButtonDefaults.buttonColors(
                     Color(0xFF5B7BFE)
                 ),
@@ -178,7 +164,7 @@ fun WordPracticeScreen(navController: NavController) {
                         else "Check",
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
-                    fontSize = (height * 20 / 812).sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                 )
             }

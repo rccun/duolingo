@@ -22,14 +22,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
 import com.example.duolingo.fonts
+import com.example.duolingo.presentation.Route
 
 data class User(
     val avatar: String,
@@ -41,32 +44,29 @@ data class Exersize(
     val avatar: String,
     val desc: String,
     val color: Color,
-    val page: String
+    val page: Route
 )
 
 @Composable
 fun MainScreen(navController: NavController) {
 
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
     val users = listOf<User>(
-        User("\uD83D\uDC68\uD83C\uDFFB\u200D\uD83C\uDFA8", "Vincent van Gogh", 12),
-        User("\uD83D\uDC68\uD83C\uDFFB\u200D\uD83D\uDD2C", "Dmitri Ivanovich Mendeleev", 10),
-        User("\uD83E\uDDDB\uD83C\uDFFB\u200D♂\uFE0F", "Vlad Tepes", 8)
+        User("\uD83D\uDC68\uD83C\uDFFB\u200D\uD83C\uDFA8", stringResource(R.string.vincent), 12),
+        User("\uD83D\uDC68\uD83C\uDFFB\u200D\uD83D\uDD2C", stringResource(R.string.mendeleev), 10),
+        User("\uD83E\uDDDB\uD83C\uDFFB\u200D♂\uFE0F", stringResource(R.string.tepes), 8)
     )
     val exersizes = listOf<Exersize>(
-        Exersize("\uD83D\uDC3B\u200D❄\uFE0F", "Guess the animal", Color(0xFF5B7BFE), "GuessAnimal"),
-        Exersize("✏\uFE0F", "Word practice", Color(0xFFD6185D), "WordPractice"),
-        Exersize("\uD83D\uDD0A", "Audition", Color(0xFFF76400), "Audition"),
-        Exersize("\uD83C\uDFAE", "Game", Color(0xFF5BA890), "Game"),
+        Exersize("\uD83D\uDC3B\u200D❄\uFE0F", stringResource(R.string.guess_animal), Color(0xFF5B7BFE), Route.GuessAnimal),
+        Exersize("✏\uFE0F", stringResource(R.string.word_practice), Color(0xFFD6185D), Route.WordPractice),
+        Exersize("\uD83D\uDD0A", stringResource(R.string.audition), Color(0xFFF76400), Route.Audition),
+        Exersize("\uD83C\uDFAE", stringResource(R.string.game), Color(0xFF5BA890), Route.Game),
     )
     Column() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color(0xFF410FA3))
-                .padding(horizontal = (width * 24 / 375).dp)
+                .padding(horizontal = 24.dp)
         )
         {
             Image(
@@ -74,32 +74,32 @@ fun MainScreen(navController: NavController) {
                 "avatar",
                 modifier = Modifier
                     .padding(
-                        top = (height * 50 / 812).dp,
-                        bottom = (height * 5 / 812).dp
+                        top = 20.dp,
+                        bottom = 5.dp
                     )
-                    .height((height * 54 / 812).dp)
-                    .width((width * 54 / 375).dp)
+                    .height(54.dp),
+                contentScale = ContentScale.FillHeight
             )
             Text(
-                "Hello, Emil",
+                stringResource(R.string.hello),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 22 / 812).sp,
+                fontSize = 22.sp,
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        bottom = (height * 5 / 812).dp
+                        bottom = 5.dp
                     )
             )
             Text(
-                "Are you ready for learning today?",
+                stringResource(R.string.main_desc),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 17 / 812).sp,
+                fontSize = 17.sp,
                 color = Color(0xFFB6B6B6),
                 modifier = Modifier
                     .padding(
-                        bottom = (height * 11 / 812).dp
+                        bottom = 11.dp
                     )
             )
 
@@ -107,14 +107,14 @@ fun MainScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = (width * 24 / 375).dp)
+                .padding(horizontal = 24.dp)
         )
         {
             Text(
-                "Top users",
+                stringResource(R.string.top_users),
                 modifier = Modifier.padding(
-                    top = (height * 11 / 812).dp,
-                    bottom = (height * 5 / 812).dp
+                    top = 11.dp,
+                    bottom = 5.dp
                 ),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
@@ -127,10 +127,7 @@ fun MainScreen(navController: NavController) {
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(20.dp))
                         .background(Color(0xFFE5E5E5))
-                        .padding(
-                            horizontal = (width * 13 / 375).dp,
-                            vertical = (height * 15 / 812).dp
-                        )
+                        .padding(15.dp)
 
                 )
                 {
@@ -147,12 +144,12 @@ fun MainScreen(navController: NavController) {
                         fontSize = 17.sp,
                         color = Color.Black,
                         modifier = Modifier
-                            .padding(start = (width * 24 / 375).dp)
+                            .padding(start = 24.dp)
                             .weight(1f)
                             .align(Alignment.CenterVertically)
                     )
                     Text(
-                        users[ind].score.toString() + " points", fontFamily = fonts,
+                        users[ind].score.toString() + stringResource(R.string.points), fontFamily = fonts,
                         fontWeight = FontWeight.Medium,
                         fontSize = 17.sp,
                         color = Color.Black,
@@ -160,14 +157,11 @@ fun MainScreen(navController: NavController) {
                     )
 
                 }
-                Spacer(modifier = Modifier.height((height * 10 / 812).dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
             Text(
-                "Avaliable exersizes",
-                modifier = Modifier.padding(
-                    top = (height * 11 / 812).dp,
-                    bottom = (height * 9 / 812).dp
-                ),
+                stringResource(R.string.exer_title),
+                modifier = Modifier.padding(vertical = 10.dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp,
@@ -175,8 +169,8 @@ fun MainScreen(navController: NavController) {
             )
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy((height * 17 / 812).dp),
-                horizontalArrangement = Arrangement.spacedBy((width * 21 / 375).dp)
+                verticalArrangement = Arrangement.spacedBy(17.dp),
+                horizontalArrangement = Arrangement.spacedBy(21.dp)
             ) {
                 items(exersizes) { exersize ->
                     Column(
@@ -203,7 +197,7 @@ fun MainScreen(navController: NavController) {
                             fontWeight = FontWeight.Normal,
                             fontSize = 13.sp,
                             color = Color.White,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 10.dp)
                         )
                     }
                 }

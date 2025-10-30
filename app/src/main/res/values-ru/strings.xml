@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="guess_animal">Угадай животное</string>
     <string name="word_practice">Словесная практика</string>
     <string name="splash_title">Языковое приложение</string>
     <string name="onb1">Уверенность в своих словах</string>
@@ -8,7 +9,7 @@
     <string name="onb1desc">Благодаря обучению в формате диалога вы будете говорить с первого урока</string>
     <string name="onb2desc">Выработайте привычку учиться и сделайте это частью своей повседневной жизни.</string>
     <string name="onb3desc">Использование различных стилей обучения для изучения и запоминания</string>
-    <string name="onb1btn">Дальше</string>
+    <string name="btn_next">Дальше</string>
     <string name="onb2btn">Больше</string>
     <string name="onb3btn">Выбрать язык</string>
     <string name="onb_skip">Пропустить</string>
@@ -35,4 +36,37 @@
     <string name="error">Ошибка</string>
     <string name="uncorrect_email">Введите корректный адрес почты</string>
     <string name="ok">Ок</string>
+    <string name="login_text">Бесплатно, присоединяйтесь сейчас и начните учиться</string>
+    <string name="email_address">Почтовый адрес</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_passw">Восстановить пароль</string>
+    <string name="not_memb">"Еще не зарегистрированы? "</string>
+    <string name="choose_passw">Выбор пароля</string>
+    <string name="conf_passw">Подтверждение пароля</string>
+    <string name="rules_i">"Я "</string>
+    <string name="rules_clickable_text">чето там</string>
+    <string name="rules_text">" еще чето там"</string>
+    <string name="hello">Привет, Emil</string>
+    <string name="main_desc">Ты сегодня готов к обучению?</string>
+    <string name="top_users">Топ пользователей</string>
+    <string name="vincent">Винсент ван Гог</string>
+    <string name="mendeleev">Дмитрий Иванович Менделеев</string>
+    <string name="tepes">Влад Тепес</string>
+    <string name="points">" очков"</string>
+    <string name="exer_title">Доступные упражнения</string>
+    <string name="audition">Аудирование</string>
+    <string name="game">Игра</string>
+    <string name="guess_text">Напиши, кто на картинке</string>
+    <string name="btn_check">Проверить</string>
+    <string name="success_guess">НЕВОЗМОЖНО! Это правильно!</string>
+    <string name="error_guess">Неправильный ответ. Это енот</string>
+    <string name="btn_try_again">Попытаться снова</string>
+    <string name="your_prof">Твой профиль, Emil</string>
+    <string name="btn_switch_light">Переключиться на светлую</string>
+    <string name="btn_change_lang">Изменить язык</string>
+    <string name="btn_change_photo">Изменить фото</string>
+    <string name="btn_logout">Выйти</string>
+    <string name="resize_title">Ваше фото великолепно!</string>
+    <string name="btn_use">Использовать это фото</string>
+    <string name="btn_switch_dark">Переключиться на темную</string>
 </resources>

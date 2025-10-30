@@ -1,11 +1,13 @@
 package com.example.duolingo.presentation.sign_up
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,13 +22,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -34,10 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.duolingo.MyDialog
 import com.example.duolingo.fonts
 import com.example.duolingo.isPasswordValid
@@ -45,15 +49,20 @@ import com.example.duolingo.isPasswordValid
 
 @Composable
 fun SignUpPasswordScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
     var showDialog = remember { mutableStateOf(false) }
     var mes = remember { mutableStateOf("") }
 
-    val configuration = LocalConfiguration.current
-    val width = configuration.screenWidthDp
-    val height = configuration.screenHeightDp
 
+    val state = viewModel.state.value
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess == true) {
+            navController.navigate(Route.Main)
+        }
+    }
     Column() {
         Box(
             modifier = Modifier
@@ -66,21 +75,23 @@ fun SignUpPasswordScreen(
                 "back",
                 modifier = Modifier
                     .padding(
-                        top = (height * 61 / 812).dp,
-                        start = (width * 24 / 375).dp,
-                        bottom = (height * 21 / 812).dp
+                        vertical = 20.dp,
+                        horizontal = 24.dp,
                     )
-                    .clickable { navController.navigate(Route.LanguageSelect.route) })
+                    .clickable {
+                        viewModel.onEvent(SignUpEvents.OnBackClick)
+                        navController.navigate(Route.SignUp) }
+            )
 
             Text(
-                "Sign up",
+                stringResource(R.string.sign_up),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
-                fontSize = (height * 17 / 812).sp,
+                fontSize = 17.sp,
                 color = Color.White,
                 modifier = Modifier
                     .padding(
-                        top = (height * 60 / 812).dp, bottom = (height * 20 / 812).dp
+                        vertical = 20.dp,
                     )
                     .align(Alignment.Center)
             )
@@ -88,7 +99,7 @@ fun SignUpPasswordScreen(
         }
 
 
-        val clickablePart = "have made myself acquainted with the Rules"
+        val clickablePart = stringResource(R.string.rules_clickable_text)
 
 
         val annotatedText = buildAnnotatedString {
@@ -99,7 +110,7 @@ fun SignUpPasswordScreen(
                     color = Color(0xFF656872),
                     fontSize = 17.sp
                 )
-            ) { append("I ") }
+            ) { append(stringResource(R.string.rules_i)) }
             withStyle(
                 SpanStyle(
                     fontFamily = fonts,
@@ -118,7 +129,7 @@ fun SignUpPasswordScreen(
                     fontSize = 17.sp
                 )
             ) {
-                append(" and accept all its provisions")
+                append(stringResource(R.string.rules_text))
             }
             addStringAnnotation(
                 tag = "URL",
@@ -131,9 +142,7 @@ fun SignUpPasswordScreen(
         Column(
             modifier = Modifier
                 .padding(
-                    top = (height * 40 / 812).dp,
-                    start = (width * 24 / 375).dp,
-                    end = (width * 24 / 375).dp
+                    24.dp
                 )
                 .fillMaxSize()
         )
@@ -142,10 +151,10 @@ fun SignUpPasswordScreen(
             val conf = remember { mutableStateOf("") }
             val mes = remember { mutableStateOf("") }
             Text(
-                "Choose a Passsword",
+                stringResource(R.string.choose_passw),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = (height * 8 / 812).dp),
+                    .padding(bottom = 8.dp, top = 20.dp),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = 22.sp,
@@ -153,18 +162,18 @@ fun SignUpPasswordScreen(
             )
 
             Text(
-                "Password",
+                stringResource(R.string.password),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
+                fontSize = 15.sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = 24.dp, bottom = 8.dp
                 )
             )
             TextField(
-                value = passw.value,
-                onValueChange = { passw.value = it },
+                value = state.password,
+                onValueChange = { viewModel.onEvent(SignUpEvents.OnPasswordValueChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(0x05080E1E),
@@ -177,25 +186,25 @@ fun SignUpPasswordScreen(
                         "********",
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
+                        fontSize = 15.sp,
                         color = Color(0x50656872),
 
 
                         )
                 })
             Text(
-                "Confirm password",
+                stringResource(R.string.conf_passw),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Normal,
-                fontSize = (height * 15 / 812).sp,
+                fontSize = 15.sp,
                 color = Color(0xFF363B44),
                 modifier = Modifier.padding(
-                    top = (height * 24 / 812).dp, bottom = (height * 8 / 812).dp
+                    top = 24.dp, bottom = 8.dp
                 )
             )
             TextField(
-                value = conf.value,
-                onValueChange = { conf.value = it },
+                value = state.confPassword,
+                onValueChange = { viewModel.onEvent(SignUpEvents.OnConfPasswordValueChange(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color(0x05080E1E),
@@ -208,7 +217,7 @@ fun SignUpPasswordScreen(
                         "********",
                         fontFamily = fonts,
                         fontWeight = FontWeight.Normal,
-                        fontSize = (height * 15 / 812).sp,
+                        fontSize = 15.sp,
                         color = Color(0x50656872),
 
 
@@ -218,13 +227,19 @@ fun SignUpPasswordScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = (height * 25 / 812).dp)
+                    .padding(top = 25.dp)
             )
             {
                 Checkbox(
-                    checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it },
-                    colors = CheckboxDefaults.colors(checkedColor = Color(0xFF5B7BFE), uncheckedColor = Color(0xFF5B7BFE))
+                    checked = state.accepted,
+                    onCheckedChange = {
+
+                        viewModel.onEvent(SignUpEvents.OnTermsClick(it))
+                                      },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color(0xFF5B7BFE),
+                        uncheckedColor = Color(0xFF5B7BFE)
+                    )
 
                 )
                 ClickableText(
@@ -241,57 +256,63 @@ fun SignUpPasswordScreen(
                     }
                 )
             }
-
+            Spacer(
+                Modifier.weight(1f)
+            )
             Button(
                 onClick = {
-                    if (checkedState.value == true) {
-                        if (passw.value == conf.value) {
-                            if (isPasswordValid(passw.value) != "") {
-                                mes.value = isPasswordValid(passw.value)
-                                showDialog.value = true
-                            } else navController.navigate(Route.LogIn.route)
-                        } else {
-                            mes.value = "Пароли не совпадают"
-                            showDialog.value = true
-                        }
-                    }
+                    viewModel.onEvent(SignUpEvents.OnSignUpClick)
+                    showDialog.value = state.isSuccess == false
+                    mes.value = state.errorMessage
+//                    if (checkedState.value == true) {
+//                        if (passw.value == conf.value) {
+//                            if (isPasswordValid(passw.value) != "") {
+//                                mes.value = isPasswordValid(passw.value)
+//                                showDialog.value = true
+//                            } else navController.navigate(Route.LogIn.route)
+//                        } else {
+//                            mes.value = "Пароли не совпадают"
+//                            showDialog.value = true
+//                        }
+//                    }
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
-                    .padding(top = (height * 73 / 812).dp, bottom = (height * 24 / 812).dp),
+                    .padding(bottom = 24.dp),//top = (height * 73 / 812).dp, ),
                 colors = ButtonDefaults.buttonColors(
                     Color(0xFF5B7BFE)
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Signup",
+                    stringResource(R.string.sign_up),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = (height * 16 / 812).dp)
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(
-                    "Already you member? ",
+                    stringResource(R.string.already_memb),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Normal,
-                    fontSize = (height * 17 / 812).sp,
+                    fontSize = 17.sp,
                     color = Color(0xFF656872),
                 )
                 Text(
-                    "Login",
+                    stringResource(R.string.login),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
-                    fontSize = (height * 17 / 812).sp,
+                    fontSize = 17.sp,
                     color = Color(0xFF5B7BFE),
-                    modifier = Modifier.clickable { navController.navigate(Route.LogIn.route)})
+                    modifier = Modifier.clickable { navController.navigate(Route.LogIn) })
             }
+            Spacer(Modifier.weight(3f))
             MyDialog(
-                title = "Ошибка",
+                title = stringResource(R.string.error),
                 text = mes.value,
                 show = showDialog.value,
                 onDismissRequest = { showDialog.value = false },
@@ -299,7 +320,7 @@ fun SignUpPasswordScreen(
                     TextButton(onClick = {
                         showDialog.value = false
                     }) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 }
             )

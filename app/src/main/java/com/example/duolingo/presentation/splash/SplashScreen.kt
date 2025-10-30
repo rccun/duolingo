@@ -19,14 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 
 
 @Composable
@@ -39,7 +37,7 @@ fun SplashScreen(
 
     LaunchedEffect(state.isTimeOut) {
         if (state.isTimeOut) {
-            navController.navigate(Route.OnBoard.route)
+            navController.navigate(Route.OnBoard)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.duolingo.presentation.profile
 
+import android.R.id.primary
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,13 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
+import com.example.duolingo.LocalThemeManager
 import com.example.duolingo.R
-import com.example.duolingo.Route
+import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
 
 data class Btn(
@@ -40,26 +44,27 @@ data class Btn(
 @Composable
 fun ProfileScreen(navController: NavController) {
 
-    val isDarkMode = remember { mutableStateOf(false) }
+    val btnText = remember { mutableStateOf("") }
+    val themeManager = LocalThemeManager.current
     val configuration = LocalConfiguration.current
     val width = configuration.screenWidthDp
     val height = configuration.screenHeightDp
-
-    val btns = listOf<Btn>(
-        Btn("Switch to dark", "", Color(0xFF5B7BFE)),
-        Btn(
-            "Change your language",
-            "navController.navigate(Route.LanguageSelect.route)",
-            Color(0xFF5B7BFE)
-        ),
-        Btn(
-            "Change your image",
-            "navController.navigate(Route.ResizePhoto.route)",
-            Color(0xFF5B7BFE)
-        ),
-        Btn("Logout", "navController.navigate(Route.LogIn.route)", Color(0xFFE5E5E5))
-
-    )
+//
+//    val btns = listOf<Btn>(
+//        Btn(stringResource(R.string.btn_switch), "", Color(0xFF5B7BFE)),
+//        Btn(
+//            stringResource(R.string.btn_change_lang),
+//            "navController.navigate(Route.LanguageSelect.route)",
+//            Color(0xFF5B7BFE)
+//        ),
+//        Btn(
+//            stringResource(R.string.btn_change_photo),
+//            "navController.navigate(Route.ResizePhoto.route)",
+//            Color(0xFF5B7BFE)
+//        ),
+//        Btn(stringResource(R.string.btn_logout), "navController.navigate(Route.LogIn.route)", Color(0xFFE5E5E5))
+//
+//    )
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (ref1, ref2) = createRefs()
         Column(
@@ -87,7 +92,7 @@ fun ProfileScreen(navController: NavController) {
                     .width((width * 134 / 375).dp)
             )
             Text(
-                "Your profile, Emil",
+                stringResource(R.string.your_prof),
                 fontFamily = fonts,
                 fontWeight = FontWeight.Medium,
                 fontSize = (height * 22 / 812).sp,
@@ -113,7 +118,7 @@ fun ProfileScreen(navController: NavController) {
                 },
         ) {
             Button(
-                onClick = {},
+                onClick = { themeManager.toggleTheme() },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
@@ -124,16 +129,16 @@ fun ProfileScreen(navController: NavController) {
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Switch to dark",
+                    if (themeManager.isDarkTheme) stringResource(R.string.btn_switch_light)
+                            else stringResource(R.string.btn_switch_dark),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
                     color = Color.White,
                 )
-
             }
             Button(
-                onClick = {navController.navigate(Route.LanguageSelect.route)},
+                onClick = {navController.navigate(Route.LanguageSelect)},
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
@@ -144,27 +149,26 @@ fun ProfileScreen(navController: NavController) {
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Change your language",
+                    stringResource(R.string.btn_change_lang),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
-                    color = Color.White,
+                    color = Color.White
                 )
-
             }
             Button(
-                onClick = {navController.navigate(Route.ResizePhoto.route)},
+                onClick = {navController.navigate(Route.ResizePhoto)},
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
                     .height((height * 56 / 812).dp),
-                colors = ButtonDefaults.buttonColors(
-                    Color(0xFF5B7BFE)
-                ),
+//                colors = ButtonDefaults.buttonColors(
+//                    Color(0xFF5B7BFE)
+//                ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Change your photo",
+                    stringResource(R.string.btn_change_photo),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
@@ -173,7 +177,7 @@ fun ProfileScreen(navController: NavController) {
 
             }
             Button(
-                onClick = {navController.navigate(Route.LogIn.route)},
+                onClick = {navController.navigate(Route.LogIn)},
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
@@ -184,7 +188,7 @@ fun ProfileScreen(navController: NavController) {
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Logout",
+                    stringResource(R.string.btn_logout),
                     fontFamily = fonts,
                     fontWeight = FontWeight.Medium,
                     fontSize = 20.sp,
