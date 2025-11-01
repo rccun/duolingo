@@ -1,7 +1,7 @@
 package com.example.duolingo.presentation.sign_up
 
 data class SignUpState(
-    val isEmailValid: Boolean? = null,
+    val id: String? = null,
     val isSuccess: Boolean? = null,
     val email: String = "",
     val firstName: String = "",

@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.duolingo.R
-import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
+import com.example.duolingo.presentation.Route
 
 data class OnBoardScreen(
     @DrawableRes val img: Int,

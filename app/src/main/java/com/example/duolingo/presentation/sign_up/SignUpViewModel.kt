@@ -1,14 +1,17 @@
 package com.example.duolingo.presentation.sign_up
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.duolingo.domain.usecase.Auth.SignUpUseCase
-import com.example.duolingo.domain.usecase.Queue.Auth.ValidateEmailUseCase
+import com.example.duolingo.domain.usecase.Auth.ValidateEmailUseCase
+import com.example.duolingo.domain.usecase.Auth.ValidateUseCase
+import com.example.duolingo.domain.usecase.getOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,9 +19,13 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val signUpUseCase: SignUpUseCase,
+    private val validateUseCase: ValidateUseCase
 ) : ViewModel() {
     private val _state = mutableStateOf(SignUpState())
     val state: State<SignUpState> = _state
+
+    private val _channel = Channel<SignUpAction>()
+    val channel = _channel.receiveAsFlow()
 
     fun onEvent(event: SignUpEvents) {
         when (event) {
@@ -39,57 +46,74 @@ class SignUpViewModel @Inject constructor(
                     lastName = event.value,
                 )
             }
+
             is SignUpEvents.OnPasswordValueChange -> {
                 _state.value = state.value.copy(
                     password = event.value,
                 )
             }
+
             is SignUpEvents.OnConfPasswordValueChange -> {
                 _state.value = state.value.copy(
                     confPassword = event.value,
                 )
             }
+
             is SignUpEvents.OnTermsClick -> {
                 _state.value = state.value.copy(
                     accepted = event.value,
                 )
             }
+
             SignUpEvents.OnNextClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     val result = validateEmailUseCase.execute(
                         email = _state.value.email
                     )
-                    //Log.d("TAG123", result.message.toString())
-                    Log.d("TAG123", result.isValid.toString())
                     _state.value = state.value.copy(
-                        errorMessage = result.message,
-                        isEmailValid = result.isValid
+                        errorMessage = result.errorMessage
                     )
-                    //Log.d("TAG1234", _state.value.errorMessage)
+
+                    if (result.isValid) {
+                        _channel.send(SignUpAction.OnSuccessSignUp)
+                    } else {
+                        _channel.send(SignUpAction.OnError("Email invalid!"))
+                    }
                 }
+
             }
 
             SignUpEvents.OnSignUpClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val res = signUpUseCase.execute(
+                    val res = validateUseCase.execute(
                         password = _state.value.password,
-                        firstName = _state.value.firstName,
-                        lastName = _state.value.lastName,
-                        email = _state.value.email,
                         confPassword = _state.value.confPassword,
                         acceptedTerms = _state.value.accepted
                     )
-                    _state.value = state.value.copy(
-                        isSuccess = res.isValid,
-                        errorMessage = res.message
-                    )
-                }
-            }
-            SignUpEvents.OnBackClick -> {
-                viewModelScope.launch {
-                    _state.value = state.value.copy(
-                        isEmailValid = false
-                    )
+                    if (res.isValid) {
+                        val result = signUpUseCase.execute(
+                            password = _state.value.password,
+                            firstName = _state.value.firstName,
+                            lastName = _state.value.lastName,
+                            email = _state.value.email
+                        )
+
+
+                        var _id = ""
+                        if (result.isValid) {
+                            _id =  result.getOrNull()!!.id
+                        }
+                        _state.value = state.value.copy(
+                            id = _id,
+                            isSuccess = result.isValid,
+                            errorMessage = result.errorMessage
+                        )
+                    } else {
+                        _state.value = state.value.copy(
+                            isSuccess = res.isValid,
+                            errorMessage = res.errorMessage
+                        )
+                    }
                 }
             }
         }

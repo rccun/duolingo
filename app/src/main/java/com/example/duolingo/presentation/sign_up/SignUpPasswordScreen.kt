@@ -1,6 +1,5 @@
 package com.example.duolingo.presentation.sign_up
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,20 +30,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.duolingo.R
-import com.example.duolingo.presentation.Route
-
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.text.SpanStyle
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.duolingo.MyDialog
+import com.example.duolingo.R
 import com.example.duolingo.fonts
-import com.example.duolingo.isPasswordValid
+import com.example.duolingo.presentation.Route
 
 
 @Composable
@@ -60,7 +57,7 @@ fun SignUpPasswordScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess == true) {
-            navController.navigate(Route.Main)
+            navController.navigate(Route.Main(id = state.id))
         }
     }
     Column() {
@@ -79,7 +76,6 @@ fun SignUpPasswordScreen(
                         horizontal = 24.dp,
                     )
                     .clickable {
-                        viewModel.onEvent(SignUpEvents.OnBackClick)
                         navController.navigate(Route.SignUp) }
             )
 

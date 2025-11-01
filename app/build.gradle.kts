@@ -44,7 +44,13 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
+
     implementation(libs.room)
+    implementation(libs.play.services.games)
     ksp(libs.room.compiler)
 
     implementation(libs.coil)

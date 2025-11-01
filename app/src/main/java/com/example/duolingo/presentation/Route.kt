@@ -17,7 +17,7 @@ sealed class Route() {
     @Serializable data object LogIn: Route()
 
 
-    @Serializable data object Main: Route()
+    @Serializable data class Main(val id: String? = null): Route()
 
 
     @Serializable data object ExersizeGraph : Route()

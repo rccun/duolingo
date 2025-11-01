@@ -10,11 +10,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.duolingo.LocalThemeManager
 import com.example.duolingo.ThemeManager
-import androidx.compose.ui.graphics.Color
-import com.example.duolingo.presentation.theme.*
 
 
 data class darkScheme(

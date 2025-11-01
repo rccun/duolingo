@@ -1,7 +1,7 @@
 package com.example.duolingo.domain.utils
 
-import com.example.duolingo.domain.usecase.Queue.ValidationResult
+import com.example.duolingo.domain.usecase.CustomResult
 
 interface EmailValidator {
-    fun validateEmail(email: String) : ValidationResult
+    fun validateEmail(email: String) : CustomResult<Unit>
 }

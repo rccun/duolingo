@@ -1,7 +1,5 @@
 package com.example.duolingo.presentation.profile
 
-import android.R.id.primary
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +30,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.example.duolingo.LocalThemeManager
 import com.example.duolingo.R
-import com.example.duolingo.presentation.Route
 import com.example.duolingo.fonts
+import com.example.duolingo.presentation.Route
 
 data class Btn(
     val text: String,

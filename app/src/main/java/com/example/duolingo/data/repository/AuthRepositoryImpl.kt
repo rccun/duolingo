@@ -1,28 +1,37 @@
 package com.example.duolingo.data.repository
 
 import android.util.Log
-import com.example.duolingo.data.data_source.InitSupabaseClient.client
+import com.example.duolingo.data.api.SupabaseApi
+import com.example.duolingo.data.dto.ProfileModelDto
+import com.example.duolingo.data.dto.SignUpDto
+import com.example.duolingo.data.dto.toDomain
+import com.example.duolingo.data.utils.CustomException
+import com.example.duolingo.domain.model.ProfileModel
 import com.example.duolingo.domain.repository.AuthRepository
-import com.example.duolingo.domain.usecase.Queue.ValidationResult
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.providers.builtin.Email
-import io.github.jan.supabase.postgrest.postgrest
+import com.example.duolingo.domain.usecase.CustomResult
+import com.example.duolingo.domain.usecase.requireValue
+import com.google.android.gms.games.gamessignin.AuthResponse
 
-class AuthRepositoryImpl : AuthRepository {
+class AuthRepositoryImpl(
+    private val api: SupabaseApi
+) : AuthRepository {
     override suspend fun signIn(
         email: String,
         password: String
-    ): ValidationResult {
-        try {
-            client.auth.signInWith(Email) {
-                this.email = email
-                this.password = password
-            }
-            return ValidationResult(true)
-        } catch (e: Exception) {
-            Log.d("TAG", e.message.toString() + " SignIn")
-            return ValidationResult(false, "Не удалось авторизоваться")
-        }
+    ): CustomResult<ProfileModel> {
+        val her: ProfileModel = ProfileModel("", "", "", "", "", "")
+        return CustomResult.Success(her)
+//        try {
+//            client.auth.signInWith(Email) {
+//                this.email = email
+//                this.password = password
+//            }
+//            return CustomResult.Success()
+//            return CustomResult(true)
+//        } catch (e: Exception) {
+//            Log.d("TAG", e.message.toString() + " SignIn")
+//            return CustomResult(false, "Не удалось авторизоваться")
+//        }
     }
 
     override suspend fun signUp(
@@ -30,46 +39,87 @@ class AuthRepositoryImpl : AuthRepository {
         password: String,
         firstName: String,
         lastName: String
-    ): ValidationResult {
+    ): CustomResult<ProfileModel> {
         try {
-            /*
-//            val result = client.auth.signUpWith(Email) {
+            val authResult = signUpAuth(email, password)
+            val userAuth = authResult.requireValue()
+            val profileResult = api.createProfile(ProfileModelDto(
+                id = userAuth.id,
+                email = userAuth.email,
+                password = userAuth.password,
+                firstName = firstName,
+                lastName = lastName,
+                avatarUrl = "https://cdkxhfvlaartfvdsrjlz.supabase.co/storage/v1/object/public/avatars/placeholder.jpg"
+            ))
+/*
+//            client.auth.signUpWith(Email) {
 //                this.email = email
 //                this.password = password
+//            }?.let { user ->
+//                client.postgrest["profiles"].insert(
+//                    mapOf(
+//                        "id" to user.id,
+//                        "first_name" to firstName,
+//                        "email" to email,
+//                        "password" to password,
+//                        "last_name" to lastName
+//                    )
+//                )
 //            }
-//            when (result) {
-//                is AuthResult.Session -> {
-//                    val user = result.user.toDomain()
-//                    AuthResult.Success(user)
-//                }
-//                is AuthResult.NeedConfirmation -> {
-//                    AuthResult.Error("Подтвердите email")
-//                }
-//                else -> {
-//                    AuthResult.Error("Ошибка регистрации")
-//                }
-//            }
-//        } catch (e: Exception) {
-//            AuthResult.Error("Ошибка сети: ${e.message}")
-//        } */
 
-            client.auth.signUpWith(Email) {
-                this.email = email
-                this.password = password
-            }?.let { user ->
-                client.postgrest["profiles"].insert(
-                    mapOf(
-                        "id" to user.id,
-                        "name" to firstName,
-                        "email" to email,
-                        "password" to password
-                    )
-                )
-            }
-            return ValidationResult(true)
+ */
+            val profileDto = profileResult.body()
+            return CustomResult.Success(profileDto!!.toDomain())
         } catch (e: Exception) {
-            Log.e("TAG_FAILURE", e.message.toString())
-            return ValidationResult(false, "Не удалось зарегистрироваться: " + e.message)
+            return CustomException()(e.message.toString())
         }
+    }
+    private suspend fun signUpAuth(
+        email: String,
+        password: String
+    ): CustomResult<ProfileModelDto> {
+        return try {
+            val request = SignUpDto(
+                email = email,
+                password = password
+            )
+
+// Создаем Call объект чтобы получить Request
+            val response = api.signUp(request)
+
+            if (response.isSuccessful) {
+                val authResponse = response.body()
+                val userAuth = authResponse?.email
+                val session = ""
+
+                if (userAuth != null && session != "null") {
+                    CustomResult.Success(authResponse) // UserAuthDto - non-null
+                //saveAuthToken(session.accessToken)
+                } else {
+                    CustomResult.Error("Auth response is incomplete")
+                }
+            } else {
+                val errorMessage = parseAuthError(response)
+                CustomResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            CustomResult.Error("Auth signup failed: ${e.message}")
+        }
+    }
+    private fun parseAuthError(response: retrofit2.Response<*>): String {
+        return try {
+            when (response.code()) {
+                400 -> "Invalid email or password"
+                422 -> "User already exists"
+                429 -> "Too many requests"
+                else -> response.errorBody()?.string() ?: "Auth error ${response.code()}"
+            }
+        } catch (e: Exception) {
+            "Auth error ${response.code()}"
+        }
+    }
+
+    override suspend fun getCurrentUser(): ProfileModel {
+        TODO("Not yet implemented")
     }
 }

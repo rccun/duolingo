@@ -18,7 +18,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.duolingo.MyDialog
 import com.example.duolingo.R
 import com.example.duolingo.fonts
 import com.example.duolingo.presentation.Route
 import com.example.duolingo.presentation.components.MyAlertDialog
+import com.example.duolingo.presentation.utils.ObserveAction
 
 @Composable
 fun SignUpScreen(
@@ -44,14 +43,24 @@ fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    LaunchedEffect(state.isEmailValid) {
-        if (state.isEmailValid == true) {
-            navController.navigate(Route.SignUpPassword)
-        }
-    }
-    val showDialog = remember { mutableStateOf(false) }
+//    LaunchedEffect(state.isEmailValid) {
+//        if (state.isEmailValid == true) {
+//            navController.navigate(Route.SignUpPassword)
+//        }
+//    }
+
+    val showDialog = remember { mutableStateOf("") }
     val titleDialog = remember { mutableStateOf("Error") }
     val messageDialogText = remember { mutableStateOf("") }
+
+    ObserveAction(viewModel.channel) {
+        when (it) {
+            SignUpAction.OnSuccessSignUp -> navController.navigate(Route.SignUpPassword)
+            is SignUpAction.OnError -> {
+                showDialog.value = it.message
+            }
+        }
+    }
 
     Column() {
         Box(
@@ -196,8 +205,7 @@ fun SignUpScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(SignUpEvents.OnNextClick)
-                    showDialog.value = state.isEmailValid == false
-                    Log.d("TAG email valid", state.isEmailValid.toString())
+
                     Log.d("TAG15", state.errorMessage)
                     messageDialogText.value = state.errorMessage
                 },
@@ -239,16 +247,16 @@ fun SignUpScreen(
             }
             MyAlertDialog(
                 title = titleDialog.value,
-                text = messageDialogText.value,
+                text = showDialog.value,
 
 //                title = stringResource(R.string.error),
 //                text = stringResource(R.string.uncorrect_email),
 
-                show = showDialog.value,
-                onDismissRequest = { showDialog.value = false },
+                show = showDialog.value.isNotBlank(),
+                onDismissRequest = { showDialog.value = "" },
                 confirmButton = {
                     TextButton(onClick = {
-                        showDialog.value = false
+                        showDialog.value = ""
                         viewModel.onEvent(SignUpEvents.OnEmailValueChange(""))
                     }) {
                         Text(stringResource(R.string.ok))

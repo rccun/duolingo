@@ -1,7 +1,7 @@
 package com.example.duolingo.data.mappers
 
-import com.example.duolingo.data.dto.UserModelDto
-import com.example.duolingo.domain.model.UserModel
+import com.example.duolingo.data.dto.ProfileModelDto
+import com.example.duolingo.domain.model.ProfileModel
 
-fun UserModelDto.toModel() =
-    UserModel(id, email, firstName, lastName)
+fun ProfileModelDto.toModel() =
+    ProfileModel(id, email, password, firstName, lastName, avatarUrl)

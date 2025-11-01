@@ -1,4 +1,4 @@
-package com.example.duolingo.presentation.main
+package com.example.duolingo.presentation.base
 
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.duolingo.ThemeManager
 import com.example.duolingo.presentation.Route
 import com.example.duolingo.presentation.audition.AuditionScreen
@@ -21,6 +22,7 @@ import com.example.duolingo.presentation.game.GameScreen
 import com.example.duolingo.presentation.guess_animal.GuessAnimalScreen
 import com.example.duolingo.presentation.language_select.LanguageSelectScreen
 import com.example.duolingo.presentation.login.LogInScreen
+import com.example.duolingo.presentation.main.MainScreen
 import com.example.duolingo.presentation.onboard.OnBoardScreen
 import com.example.duolingo.presentation.profile.ProfileScreen
 import com.example.duolingo.presentation.profile.ResizePhotoScreen
@@ -44,13 +46,13 @@ class MainActivity : ComponentActivity() {
             val themeManager = remember { ThemeManager() }
             Log.d("TAG", themeManager.isDarkTheme.toString())
 
-            DuolingoTheme (dynamicColor = false) {
+            DuolingoTheme(dynamicColor = false) {
                 Scaffold(
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
                         startDestination = Route.AuthGraph,
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .padding(innerPadding)
                     ) {
                         navigation<Route.StartDestinationGraph>(
@@ -80,8 +82,10 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        composable<Route.Main> {
-                            MainScreen(navController)
+                        composable<Route.Main> { backStackEntry ->
+                            val args = backStackEntry.toRoute<Route.Main>()
+                            val userId = args.id // "12345"
+                            MainScreen(navController, userId!!)
                         }
                         navigation<Route.ExersizeGraph>(
                             startDestination = Route.GuessAnimal

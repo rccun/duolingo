@@ -1,13 +1,15 @@
 package com.example.duolingo.di
 
+import com.example.duolingo.data.api.SupabaseApi
 import com.example.duolingo.data.repository.AuthRepositoryImpl
 import com.example.duolingo.data.utils.EmailValidatorImpl
 import com.example.duolingo.domain.repository.AuthRepository
 import com.example.duolingo.domain.usecase.Auth.SignUpUseCase
+import com.example.duolingo.domain.usecase.Auth.ValidateConfirmPasswordUseCase
+import com.example.duolingo.domain.usecase.Auth.ValidateEmailUseCase
 import com.example.duolingo.domain.usecase.Auth.ValidatePasswordUseCase
 import com.example.duolingo.domain.usecase.Auth.ValidateTermsUseCase
-import com.example.duolingo.domain.usecase.Queue.Auth.ValidateConfirmPasswordUseCase
-import com.example.duolingo.domain.usecase.Queue.Auth.ValidateEmailUseCase
+import com.example.duolingo.domain.usecase.Auth.ValidateUseCase
 import com.example.duolingo.domain.utils.EmailValidator
 import dagger.Module
 import dagger.Provides
@@ -21,8 +23,8 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(): AuthRepository =
-        AuthRepositoryImpl()
+    fun provideAuthRepository(api: SupabaseApi): AuthRepository =
+        AuthRepositoryImpl(api)
 
     @Provides
     @Singleton
@@ -52,11 +54,17 @@ object AuthModule {
     @Singleton
     fun provideSignUpUseCase(
         repo: AuthRepository,
+    ) =
+        SignUpUseCase(repo)
+
+
+    @Provides
+    @Singleton
+    fun provideValidateUseCase (
         passwordValidation: ValidatePasswordUseCase,
         confirmPasswordUseCase: ValidateConfirmPasswordUseCase,
         termsUseCase: ValidateTermsUseCase
     ) =
-        SignUpUseCase(repo, passwordValidation, confirmPasswordUseCase, termsUseCase)
-
+        ValidateUseCase(passwordValidation, confirmPasswordUseCase, termsUseCase)
 
 }
