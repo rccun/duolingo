@@ -1,92 +1,125 @@
 package com.example.duolingo.presentation.main
 
-import android.graphics.BitmapFactory
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.duolingo.domain.model.ProfileModel
-import com.example.duolingo.domain.repository.ProfileRepository
 import com.example.duolingo.domain.usecase.CustomResult
 import com.example.duolingo.domain.usecase.getOrNull
+import com.example.duolingo.domain.usecase.main.GetExercisesUseCase
+import com.example.duolingo.domain.usecase.main.GetTopProfilesUseCase
+import com.example.duolingo.domain.usecase.profile.GetProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.HttpURLConnection
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository
-
+    private val getProfileUseCase: GetProfileUseCase,
+    private val getExercisesUseCase: GetExercisesUseCase,
+    private val getTopProfilesUseCase: GetTopProfilesUseCase
 ) : ViewModel() {
-    private val _state = mutableStateOf(MainState())
-    val state: State<MainState> = _state
+    private val _state = MutableStateFlow(MainState(isLoading = true))
+    val state: StateFlow<MainState> = _state
 
-    private val _profile = MutableStateFlow<ProfileModel?>(null)
-    val profile: StateFlow<ProfileModel?> = _profile
-    private val _avatarBitmap = MutableStateFlow<ImageBitmap?>(null)
-    val avatarBitmap: StateFlow<ImageBitmap?> = _avatarBitmap
-
-    //    init {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            getProfile()
-//        }
-//    }
-    fun loadAvatar(imageUrl: String) {
+    fun loadExercises() {
         viewModelScope.launch {
-            val bitmap = withContext(Dispatchers.IO) {
-                // HTTP загрузка картинки
-                try {
-                    val url = URL(imageUrl)
-                    val connection = url.openConnection() as HttpURLConnection
-                    val input = connection.inputStream
-                    BitmapFactory.decodeStream(input)?.asImageBitmap()
-                } catch (e: Exception) {
-                    _state.value = state.value.copy(
-                        errorMessage = e.message
-                    )
-                    null
-                }
-            }
-            _avatarBitmap.value = bitmap
-        }
-    }
-
-    fun loadProfile(id: String) {
-        viewModelScope.launch {
+            _state.value = _state.value.copy(
+                isLoading = true
+            )
             try {
-                when (val result = profileRepository.getProfileById(id)) {
+                when (val result = getExercisesUseCase.execute()) {
                     is CustomResult.Success -> {
-                        _state.value = state.value.copy(
-                            profileModel = result.getOrNull()
+                        val exercises = result.getOrNull()
+                        _state.value = _state.value.copy(
+                            exercises = exercises,
+                            isLoading = false
                         )
                     }
 
                     is CustomResult.Error -> {
-                        _state.value = state.value.copy(
-                            errorMessage = result.message
+                        _state.value = _state.value.copy(
+                            errorMessage = result.message,
+                            isLoading = false
+                        )
+                    }
+
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
+                )
+            }
+        }
+    }
+    fun loadProfile(id: String) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+            try {
+                when (val result = getProfileUseCase.execute(id)) {
+                    is CustomResult.Success -> {
+                        val profile = result.getOrNull()
+                        _state.value = _state.value.copy(
+                            profileModel = profile,
+                            isLoading = false
+                        )
+                    }
+
+                    is CustomResult.Error -> {
+                        _state.value = _state.value.copy(
+                            errorMessage = result.message,
+                            isLoading = false
                         )
                     }
                 }
             } catch (e: Exception) {
-                _state.value = state.value.copy(
-                    errorMessage = "Failed to load profile: ${e.message}"
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
                 )
             }
         }
     }
 
-    private suspend fun getProfile() {
-    }
+    //    private fun loadAvatar(url: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val bitmap = try {
+//                val connection = URL(url).openConnection() as HttpURLConnection
+//                val input = connection.inputStream
+//                BitmapFactory.decodeStream(input)?.asImageBitmap()
+//            } catch (e: Exception) {
+//                null
+//            }
+//            _state.value = _state.value.copy(avatar = bitmap)
+//        }
+//    }
+    fun loadProfiles() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+            try {
+                when (val result = getTopProfilesUseCase.execute()) {
+                    is CustomResult.Success -> {
+                        val topProfiles = result.getOrNull()
+                        _state.value = _state.value.copy(
+                            topUsers = topProfiles,
+                            isLoading = false
+                        )
+                    }
 
-    fun onEvent(event: MainEvents) {
+                    is CustomResult.Error -> {
+                        _state.value = _state.value.copy(
+                            errorMessage = result.message,
+                            isLoading = false
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    errorMessage = e.message,
+                    isLoading = false
+                )
+            }
+        }
     }
-
 }

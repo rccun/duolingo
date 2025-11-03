@@ -198,7 +198,7 @@ fun LogInScreen(
                     }
                     else {
                         if (isValid(email.value)) {
-                            if (isPasswordValid(passw.value) == "") navController.navigate(Route.Main)
+                            if (isPasswordValid(passw.value) == "") navController.navigate(Route.Main(id = null))
                             else {
                                 mes.value = isPasswordValid(passw.value)
                                 showDialog.value = true

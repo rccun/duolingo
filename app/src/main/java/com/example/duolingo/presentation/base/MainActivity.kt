@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Route.AuthGraph,
+                        startDestination = Route.MainGraph,
                         modifier = Modifier.Companion
                             .padding(innerPadding)
                     ) {
@@ -82,12 +82,18 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        composable<Route.Main> { backStackEntry ->
-                            val args = backStackEntry.toRoute<Route.Main>()
-                            val userId = args.id // "12345"
-                            MainScreen(navController, userId!!)
+
+                        navigation<Route.MainGraph>(
+                            startDestination = Route.Main(id = null)
+                        ) {
+                            composable<Route.Main> {
+                                backStackEntry ->
+                                val args = backStackEntry.toRoute<Route.Main>()
+                                val userId = args.id?: "3997cd0e-5de3-48a0-b80d-0bd1ecb589ba"// "12345"
+                                MainScreen(navController, userId)
+                            }
                         }
-                        navigation<Route.ExersizeGraph>(
+                        navigation<Route.ExerciseGraph>(
                             startDestination = Route.GuessAnimal
                         ) {
                             composable<Route.GuessAnimal> {

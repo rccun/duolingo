@@ -1,7 +1,7 @@
 package com.example.duolingo.data.repository
 
-import android.util.Log
-import com.example.duolingo.data.api.SupabaseApi
+import com.example.duolingo.data.api.SupabaseAuthApi
+import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.dto.ProfileModelDto
 import com.example.duolingo.data.dto.SignUpDto
 import com.example.duolingo.data.dto.toDomain
@@ -10,16 +10,16 @@ import com.example.duolingo.domain.model.ProfileModel
 import com.example.duolingo.domain.repository.AuthRepository
 import com.example.duolingo.domain.usecase.CustomResult
 import com.example.duolingo.domain.usecase.requireValue
-import com.google.android.gms.games.gamessignin.AuthResponse
 
 class AuthRepositoryImpl(
-    private val api: SupabaseApi
+    private val restApi: SupabaseRestApi,
+    private val authApi: SupabaseAuthApi,
 ) : AuthRepository {
     override suspend fun signIn(
         email: String,
         password: String
     ): CustomResult<ProfileModel> {
-        val her: ProfileModel = ProfileModel("", "", "", "", "", "")
+        val her: ProfileModel = ProfileModel("", "", "", "", "", "", 0)
         return CustomResult.Success(her)
 //        try {
 //            client.auth.signInWith(Email) {
@@ -41,39 +41,48 @@ class AuthRepositoryImpl(
         lastName: String
     ): CustomResult<ProfileModel> {
         try {
+
             val authResult = signUpAuth(email, password)
             val userAuth = authResult.requireValue()
-            val profileResult = api.createProfile(ProfileModelDto(
+            val profile = ProfileModelDto(
                 id = userAuth.id,
-                email = userAuth.email,
-                password = userAuth.password,
+                email = email,
+                password = password,
                 firstName = firstName,
-                lastName = lastName,
-                avatarUrl = "https://cdkxhfvlaartfvdsrjlz.supabase.co/storage/v1/object/public/avatars/placeholder.jpg"
-            ))
-/*
-//            client.auth.signUpWith(Email) {
-//                this.email = email
-//                this.password = password
-//            }?.let { user ->
-//                client.postgrest["profiles"].insert(
-//                    mapOf(
-//                        "id" to user.id,
-//                        "first_name" to firstName,
-//                        "email" to email,
-//                        "password" to password,
-//                        "last_name" to lastName
-//                    )
-//                )
-//            }
+                lastName = lastName
+            )
 
- */
-            val profileDto = profileResult.body()
-            return CustomResult.Success(profileDto!!.toDomain())
+
+            val profileResult = restApi.createProfile(profile)
+
+            if (profileResult.isSuccessful) {
+                return CustomResult.Success(profile.toDomain())
+            } else {
+                val errorBody = profileResult.errorBody()?.string()
+                return CustomException()("Registration failed: ${profileResult.code()} - $errorBody")
+            }
+            /*
+            //            client.auth.signUpWith(Email) {
+            //                this.email = email
+            //                this.password = password
+            //            }?.let { user ->
+            //                client.postgrest["profiles"].insert(
+            //                    mapOf(
+            //                        "id" to user.id,
+            //                        "first_name" to firstName,
+            //                        "email" to email,
+            //                        "password" to password,
+            //                        "last_name" to lastName
+            //                    )
+            //                )
+            //            }
+
+             */
         } catch (e: Exception) {
             return CustomException()(e.message.toString())
         }
     }
+
     private suspend fun signUpAuth(
         email: String,
         password: String
@@ -84,17 +93,22 @@ class AuthRepositoryImpl(
                 password = password
             )
 
-// Создаем Call объект чтобы получить Request
-            val response = api.signUp(request)
 
+//            Log.d("SIGNUP_DEBUG", "SignUp Response: ${response.code()}")
+//            if (response.isSuccessful) {
+//                val authResponse = response.body()
+//                Log.d("SIGNUP_DEBUG", "User created: ${authResponse?.email}")
+//                Log.d("SIGNUP_DEBUG", "Session: ${authResponse?.password}")
+//            } else {
+//                val errorBody = response.errorBody()?.string()
+//                Log.e("SIGNUP_DEBUG", "SignUp failed: $errorBody")
+//            }
+            val response = authApi.signUp(request)
             if (response.isSuccessful) {
                 val authResponse = response.body()
-                val userAuth = authResponse?.email
-                val session = ""
 
-                if (userAuth != null && session != "null") {
-                    CustomResult.Success(authResponse) // UserAuthDto - non-null
-                //saveAuthToken(session.accessToken)
+                if (authResponse != null) {
+                    CustomResult.Success(authResponse)
                 } else {
                     CustomResult.Error("Auth response is incomplete")
                 }
@@ -106,6 +120,7 @@ class AuthRepositoryImpl(
             CustomResult.Error("Auth signup failed: ${e.message}")
         }
     }
+
     private fun parseAuthError(response: retrofit2.Response<*>): String {
         return try {
             when (response.code()) {

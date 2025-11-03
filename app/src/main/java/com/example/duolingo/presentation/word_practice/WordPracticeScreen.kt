@@ -57,7 +57,7 @@ fun WordPracticeScreen(navController: NavController) {
                     "back",
                     modifier = Modifier
                         .padding(end = 20.dp)
-                        .clickable { navController.navigate(Route.Main) })
+                        .clickable { navController.navigate(Route.Main(id = null)) })
             },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Blue

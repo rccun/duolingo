@@ -1,21 +1,15 @@
 package com.example.duolingo.data.repository
 
-import com.example.duolingo.data.api.SupabaseApi
-import com.example.duolingo.data.data_source.SupabaseHttpClient
+import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.dto.toDomain
+import com.example.duolingo.data.utils.CustomException
 import com.example.duolingo.domain.model.ProfileModel
 import com.example.duolingo.domain.repository.ProfileRepository
 import com.example.duolingo.domain.usecase.CustomResult
-import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.postgrest.postgrest
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.retryWhen
-import kotlinx.io.IOException
 
 class ProfileRepositoryImpl(
-    private val api: SupabaseApi
+    private val api: SupabaseRestApi
 ) : ProfileRepository {
     override suspend fun getProfileFlow() = channelFlow<CustomResult<ProfileModel>> {
 
@@ -23,20 +17,22 @@ class ProfileRepositoryImpl(
 
     override suspend fun getProfileById(id: String): CustomResult<ProfileModel> {
         return try {
-            val response = api.getUserById(id)
+            val response = api.getProfileById(id = "eq.{$id}")
 
             if (response.isSuccessful) {
                 val profileDto = response.body()?.firstOrNull()
                 if (profileDto != null) {
                     CustomResult.Success(profileDto.toDomain())
                 } else {
-                    CustomResult.Error("User not found")
+                    CustomException()("User not found")
+                    //CustomResult.Error("User not found")
                 }
             } else {
-                CustomResult.Error("HTTP error: ${response.code()}")
+                CustomException()("HTTP error: ${response.code()}")
+//                CustomResult.Error()
             }
         } catch (e: Exception) {
-            CustomResult.Error("Network error: ${e.message}")
+            CustomException()("Network error: ${e.message}")
         }
     }
 

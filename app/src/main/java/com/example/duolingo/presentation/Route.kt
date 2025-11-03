@@ -16,11 +16,12 @@ sealed class Route() {
 
     @Serializable data object LogIn: Route()
 
+    @Serializable data object MainGraph : Route()
 
     @Serializable data class Main(val id: String? = null): Route()
 
 
-    @Serializable data object ExersizeGraph : Route()
+    @Serializable data object ExerciseGraph : Route()
     @Serializable data object GuessAnimal: Route()
     @Serializable data object WordPractice: Route()
     @Serializable data object Game: Route()
@@ -30,4 +31,9 @@ sealed class Route() {
     @Serializable data object ProfileGraph : Route()
     @Serializable data object Profile: Route()
     @Serializable data object ResizePhoto: Route()
+}
+object Routes {
+    const val Main = "main"
+    const val Splash = "splash"
+    const val Login = "login"
 }

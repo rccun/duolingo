@@ -1,13 +1,9 @@
 package com.example.duolingo.di
 
-import com.example.duolingo.data.api.SupabaseApi
-import com.example.duolingo.data.repository.AuthRepositoryImpl
+import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.repository.ProfileRepositoryImpl
-import com.example.duolingo.domain.repository.AuthRepository
 import com.example.duolingo.domain.repository.ProfileRepository
-import com.example.duolingo.domain.usecase.Auth.ValidateEmailUseCase
 import com.example.duolingo.domain.usecase.profile.GetProfileUseCase
-import com.example.duolingo.domain.utils.EmailValidator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +17,7 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(api: SupabaseApi): ProfileRepository =
+    fun provideProfileRepository(api: SupabaseRestApi): ProfileRepository =
         ProfileRepositoryImpl(api)
 
     @Provides

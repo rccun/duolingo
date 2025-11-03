@@ -6,5 +6,6 @@ data class ProfileModel(
     val password: String,
     val firstName: String,
     val lastName: String,
-    val avatarUrl: String,
+    val avatarUrl: String = "https://cdkxhfvlaartfvdsrjlz.supabase.co/storage/v1/object/public/avatars/placeholder.png",
+    val score: Int
 )

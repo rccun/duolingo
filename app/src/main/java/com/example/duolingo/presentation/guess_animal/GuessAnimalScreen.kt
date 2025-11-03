@@ -261,7 +261,7 @@ fun GuessAnimalScreen(navController: NavController) {
                 "back",
                 modifier = Modifier
                     .padding(20.dp)
-                    .clickable { navController.navigate(Route.Main) })
+                    .clickable { navController.navigate(Route.Main(id = null)) })
 
             Text(
                 stringResource(R.string.guess_animal),

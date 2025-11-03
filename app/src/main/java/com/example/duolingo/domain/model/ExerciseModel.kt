@@ -1,7 +1,8 @@
 package com.example.duolingo.domain.model
 
 data class ExerciseModel(
-    val title: String? = null,
-    val emoji: String? = null,
-    val color: Int? = null
+    val id: String,
+    val title: String,
+    val imageUrl: String = "https://cdkxhfvlaartfvdsrjlz.supabase.co/storage/v1/object/public/avatars/placeholder.png",
+    val color: Int
 )

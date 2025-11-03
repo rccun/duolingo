@@ -3,19 +3,19 @@ package com.example.duolingo.data.dto
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.duolingo.domain.model.ProfileModel
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
-import java.io.Serial
 
 @Entity
 @Serializable
 data class ProfileModelDto(
     @PrimaryKey val id: String,
+    @SerializedName("first_name") val firstName: String,
     val email: String,
-    @SerialName("first_name") val firstName: String,
-    @SerialName("last_name") val lastName: String,
     val password: String,
-    @SerialName("avatar_url") val avatarUrl: String
+    @SerializedName("last_name") val lastName: String,
+    @SerializedName("avatar_url") val avatarUrl: String = "https://cdkxhfvlaartfvdsrjlz.supabase.co/storage/v1/object/public/avatars/placeholder.png",
+    val score: Int = 0,
 )
 
 
@@ -34,5 +34,6 @@ fun ProfileModelDto.toDomain() : ProfileModel =
         password = password,
         firstName = firstName,
         lastName = lastName,
-        avatarUrl = avatarUrl
+        avatarUrl = avatarUrl,
+        score = score
     )
