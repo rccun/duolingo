@@ -1,6 +1,6 @@
 package com.example.duolingo.di
 
-import com.example.duolingo.data.api.SupabaseAuthApi
+import com.example.duolingo.data.api.SupabaseApi
 import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.repository.AuthRepositoryImpl
 import com.example.duolingo.data.utils.EmailValidatorImpl
@@ -24,7 +24,7 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: SupabaseRestApi, authApi: SupabaseAuthApi): AuthRepository =
+    fun provideAuthRepository(api: SupabaseRestApi, authApi: SupabaseApi): AuthRepository =
         AuthRepositoryImpl(api, authApi)
 
     @Provides

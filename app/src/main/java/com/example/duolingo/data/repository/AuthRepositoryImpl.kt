@@ -1,6 +1,6 @@
 package com.example.duolingo.data.repository
 
-import com.example.duolingo.data.api.SupabaseAuthApi
+import com.example.duolingo.data.api.SupabaseApi
 import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.dto.ProfileModelDto
 import com.example.duolingo.data.dto.SignUpDto
@@ -13,7 +13,7 @@ import com.example.duolingo.domain.usecase.requireValue
 
 class AuthRepositoryImpl(
     private val restApi: SupabaseRestApi,
-    private val authApi: SupabaseAuthApi,
+    private val authApi: SupabaseApi,
 ) : AuthRepository {
     override suspend fun signIn(
         email: String,

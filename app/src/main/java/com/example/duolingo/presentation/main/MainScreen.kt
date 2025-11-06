@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -35,9 +34,11 @@ import androidx.navigation.NavController
 import com.example.duolingo.R
 import com.example.duolingo.fonts
 import com.example.duolingo.presentation.Route
-import com.example.duolingo.presentation.components.ExerciseAvatar
-import com.example.duolingo.presentation.components.UserAvatar
-import com.example.duolingo.presentation.theme.DeepBlue
+import com.example.duolingo.presentation.components.AsyncImage
+import com.example.duolingo.presentation.theme.Blue
+import com.example.duolingo.presentation.theme.Green
+import com.example.duolingo.presentation.theme.Orange
+import com.example.duolingo.presentation.theme.Red
 
 data class User(
     val avatar: String,
@@ -101,7 +102,7 @@ fun MainScreen(navController: NavController, id: String) {
                 )
                 {
                     profile?.let { user ->
-                        UserAvatar(
+                        AsyncImage(
                             profile.avatarUrl,
                             Modifier
                                 .padding(
@@ -109,7 +110,8 @@ fun MainScreen(navController: NavController, id: String) {
                                     bottom = 5.dp
                                 )
                                 .height(54.dp)
-                                .clip(CircleShape)
+                                .clip(CircleShape),
+                            desc = "User avatar"
                         )
                         Text(
                             stringResource(R.string.hello) + " " + user.firstName,
@@ -169,11 +171,12 @@ fun MainScreen(navController: NavController, id: String) {
 
                                 )
                                 {
-                                    UserAvatar(
+                                    AsyncImage(
                                         user.avatarUrl,
                                         Modifier
                                             .clip(CircleShape)
-                                            .height(45.dp)
+                                            .height(45.dp),
+                                        "User avatar"
                                     )
                                     Text(
                                         user.lastName,
@@ -222,30 +225,47 @@ fun MainScreen(navController: NavController, id: String) {
                                 Column(
                                     modifier = Modifier
                                         .clip(shape = RoundedCornerShape(20.dp))
-                                        .background(Color(exercise.color or 0xFF000000.toInt()))
+//                                        .background(Color(0xFFFFFFFF))
+//                                        .background(Color(exercise.color or Color.Transparent.toArgb()))
+                                        .background(
+                                            when (index) {
+                                                0 -> Orange
+                                                1 -> Green
+                                                2 -> Blue
+                                                3 -> Red
+                                                else -> Color.Transparent
+                                            }
+                                        )
                                         .clickable {
                                             navController.navigate(
-                                                Route.Game
+                                                when (exercise.title) {
+                                                    "Audition" -> Route.Audition
+                                                    "Game" -> Route.Game
+                                                    "Word practice" -> Route.WordPractice
+                                                    "Guess the animal" -> Route.GuessAnimal
+                                                    else -> Route.Main
+                                                }
                                             )
                                         }
                                 ) {
-                                    ExerciseAvatar(
-                                        exercise.imageUrl,
-                                        Modifier
-                                            .height(90.dp)
-                                            .align(Alignment.CenterHorizontally)
-                                            .padding(vertical = 10.dp)
-                                    )
-//                                    Text(
+//                                    Text("\uD83D\uDC3B\u200D❄\uFE0F", /*modifier = Modifier.height(90.dp),*/ fontSize = 90.sp)
+//                                    ExerciseAvatar(
 //                                        exercise.imageUrl,
-//                                        fontFamily = fonts,
-//                                        fontWeight = FontWeight.Normal,
-//                                        fontSize = 90.sp,
-//                                        color = Color.Black,
-//                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+//                                        Modifier
+//                                            .height(90.dp)
+//                                            .align(Alignment.CenterHorizontally)
+//                                            .padding(vertical = 10.dp)
 //                                    )
                                     Text(
-                                        exercise.title,
+                                        exercise.icon,
+                                        fontFamily = fonts,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 90.sp,
+                                        color = Color.Black,
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    )
+                                    Text(
+                                        exercise.title,// + "  " + index.toString(),
                                         fontFamily = fonts,
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 13.sp,

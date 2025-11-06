@@ -36,7 +36,7 @@ class MainRepositoryImpl(
 
     override suspend fun getExercises(): CustomResult<List<ExerciseModel>> {
         return try {
-            val response = restApi.getExercises()
+            val response = restApi.getExercises(order = "title.asc")
             val mutableList: MutableList<ExerciseModel> = mutableListOf()
 
             if (response.isSuccessful) {

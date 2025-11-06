@@ -10,13 +10,13 @@ import coil.request.ImageRequest
 import com.example.duolingo.R
 
 @Composable
-fun UserAvatar(url: String, modifier: Modifier) {
+fun AsyncImage(url: String, modifier: Modifier, desc: String) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url)
             .crossfade(true)
             .build(),
-        contentDescription = "User avatar",
+        contentDescription = desc,
         contentScale = ContentScale.FillHeight,
         placeholder = painterResource(R.drawable.placeholder),
         error = painterResource(R.drawable.login),

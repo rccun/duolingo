@@ -1,6 +1,6 @@
 package com.example.duolingo.di
 
-import com.example.duolingo.data.api.SupabaseAuthApi
+import com.example.duolingo.data.api.SupabaseApi
 import com.example.duolingo.data.api.SupabaseRestApi
 import com.example.duolingo.data.data_source.SupabaseHttpClients
 import dagger.Module
@@ -20,7 +20,7 @@ object NetworkModule {
     }
     @Provides
     @Singleton
-    fun provideSupabaseAuthApi(): SupabaseAuthApi {
+    fun provideSupabaseAuthApi(): SupabaseApi {
         return SupabaseHttpClients.authApi
     }
 

@@ -1,7 +1,7 @@
 package com.example.duolingo.data.data_source
 
 import android.util.Log
-import com.example.duolingo.data.api.SupabaseAuthApi
+import com.example.duolingo.data.api.SupabaseApi
 import com.example.duolingo.data.api.SupabaseRestApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,19 +10,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 object SupabaseHttpClients {
     private const val BASE_URL = "https://cdkxhfvlaartfvdsrjlz.supabase.co/"
 
-    const val SUPABASE_URL = "https://cdkxhfvlaartfvdsrjlz.supabase.co"
+        //const val SUPABASE_URL = "https://cdkxhfvlaartfvdsrjlz.supabase.co"
 
     const val SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNka3hoZnZsYWFydGZ2ZHNyamx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NjIyNjMsImV4cCI6MjA3NjEzODI2M30.dsOQvtArgtLy981-We_RdAOEPGXIiY7xFbhjRNc7sZk" // из настроек проекта
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY // Логирование всех данных тела запроса и ответа
     }
     // Клиент для Auth API
-    val authApi: SupabaseAuthApi = Retrofit.Builder()
+    val authApi: SupabaseApi = Retrofit.Builder()
         .baseUrl(BASE_URL) // Без /rest/v1/
         .client(createHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(SupabaseAuthApi::class.java)
+        .create(SupabaseApi::class.java)
 
     // Клиент для REST API
     val restApi: SupabaseRestApi = Retrofit.Builder()

@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import com.example.duolingo.R
 import com.example.duolingo.fonts
 import com.example.duolingo.presentation.Route
+import com.example.duolingo.presentation.components.AsyncImage
 
 @Composable
 fun GuessAnimal(
@@ -53,6 +54,9 @@ fun GuessAnimal(
         verticalArrangement = Arrangement.spacedBy(17.dp)
     ) {
         Box(modifier = Modifier.clip(shape = RoundedCornerShape(20.dp))) {
+//            AsyncImage(
+//
+//            )
             Image(
                 bitmap = ImageBitmap.imageResource(R.drawable.racoon),
                 "blabla",
